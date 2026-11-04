@@ -58,6 +58,9 @@ lerna-debug.log*
 *-local.properties
 application-local.properties
 
+# Database Dumps
+*.sql
+
 # Logs
 logs/
 *.log
