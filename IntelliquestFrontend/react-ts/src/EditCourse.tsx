@@ -506,7 +506,7 @@ const EditCourse: React.FC<EditCourseProps> = ({ course, onCancel }) => {
                                         </Button>
 
                                         <a
-                                            href={`http://localhost:9092/auth/courses/${formData.courseId}/materials/${material.fileName}?download=true`}
+                                            href={`${(import.meta.env.VITE_BACKEND_URL as string) || "https://intelliquest-elearning-platform.onrender.com"}/auth/courses/${formData.courseId}/materials/${material.fileName}?download=true`}
                                             download
                                         >
                                             <Button type="button"
