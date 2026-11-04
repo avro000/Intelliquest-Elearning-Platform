@@ -1,3 +1,4 @@
+import { API_BASE_URL } from "@/api/config";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -98,7 +99,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                   variant="outline"
                   className="w-full"
                   onClick={() => {
-                    window.location.href = "http://localhost:9092/oauth2/authorization/google";
+                    window.location.href = `${API_BASE_URL}/oauth2/authorization/google`;
                   }}
                 >
 

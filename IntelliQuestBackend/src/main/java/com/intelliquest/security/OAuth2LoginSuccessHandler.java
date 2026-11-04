@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -21,6 +22,9 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
     private final JwtService jwtService;
     private final UserRepository userRepository;
     private final org.springframework.security.crypto.password.PasswordEncoder passwordEncoder = new org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder();
+
+    @Value("${frontend.url:http://localhost:5173}")
+    private String frontendUrl;
 
     public OAuth2LoginSuccessHandler(JwtService jwtService, UserRepository userRepository) {
         this.jwtService = jwtService;
@@ -61,6 +65,6 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         
         String effectivePicture = user.getProfilePictureUrl() != null ? user.getProfilePictureUrl() : picture;
         String jwt = jwtService.generateToken(email, user.getUsername(), effectivePicture, user.getRole().name());
-        response.sendRedirect("http://localhost:5173/oauth-success?token=" + jwt);
+        response.sendRedirect(frontendUrl + "/oauth-success?token=" + jwt);
     }
 }
