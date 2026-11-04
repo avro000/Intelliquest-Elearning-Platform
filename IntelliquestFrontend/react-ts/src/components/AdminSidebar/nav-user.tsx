@@ -1,0 +1,168 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+import {
+  BadgeCheck,
+  Bell,
+  ChevronsUpDown,
+  CreditCard,
+  LogOut,
+  Sparkles,
+} from "lucide-react";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  useSidebar,
+} from "@/components/ui/sidebar";
+import { useAuth } from "@/AuthContext";
+import { getLoggedInUser } from "@/api/api";
+
+type JwtPayload = {
+  sub: string;      
+  name: string;
+  picture?: string;
+};
+
+export function NavUser() {
+  const { isMobile } = useSidebar();
+  const navigate = useNavigate();
+  const { logout, profileImage, currentUser } = useAuth();
+
+  const [user, setUser] = useState<JwtPayload | null>(null);
+
+  useEffect(() => {
+    if (currentUser) {
+      setUser({
+        sub: currentUser.email || "",
+        name: currentUser.username || "",
+        picture: currentUser.profilePictureUrl || profileImage || "",
+      });
+      return;
+    }
+
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const decoded: JwtPayload = jwtDecode(token);
+        setUser(decoded);
+      } catch (error) {
+        console.error("Error decoding token:", error);
+        setUser(null);
+      }
+    }
+
+    const fetchUser = async () => {
+      try {
+        const data = await getLoggedInUser();
+        if (data) {
+          setUser((prev) => ({
+            sub: data.email || prev?.sub || "",
+            name: data.username || prev?.name || "",
+            picture: data.profilePictureUrl || prev?.picture || "",
+          }));
+        }
+      } catch (err) {
+        console.error("Error fetching user in AdminNavUser:", err);
+      }
+    };
+
+    fetchUser();
+  }, [profileImage, currentUser]);
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
+
+  const avatarSrc = user?.picture || profileImage || currentUser?.profilePictureUrl || "";
+
+  return (
+    <SidebarMenu>
+      <SidebarMenuItem>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <SidebarMenuButton
+              size="lg"
+              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+            >
+              <Avatar className="h-8 w-8 rounded-lg">
+                <AvatarImage src={avatarSrc} alt={user?.name || "User"} />
+                <AvatarFallback className="rounded-lg">
+                  {user?.name?.charAt(0).toUpperCase() || "U"}
+                </AvatarFallback>
+              </Avatar>
+              <div className="grid flex-1 text-left text-sm leading-tight">
+                <span className="truncate font-medium">{user?.name || "User"}</span>
+                <span className="truncate text-xs">{user?.sub || "Loading..."}</span>
+              </div>
+              <ChevronsUpDown className="ml-auto size-4" />
+            </SidebarMenuButton>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
+            side={isMobile ? "bottom" : "right"}
+            align="end"
+            sideOffset={4}
+          >
+            <DropdownMenuLabel className="p-0 font-normal">
+              <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+                <Avatar className="h-8 w-8 rounded-lg">
+                  <AvatarImage src={avatarSrc} alt={user?.name || "User"} />
+                  <AvatarFallback className="rounded-lg">
+                    {user?.name?.charAt(0).toUpperCase() || "U"}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="grid flex-1 text-left text-sm leading-tight">
+                  <span className="truncate font-medium">{user?.name || "User"}</span>
+                  <span className="truncate text-xs">{user?.sub || "Loading..."}</span>
+                </div>
+              </div>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuGroup>
+              <DropdownMenuItem>
+                <Sparkles />
+                Upgrade to Pro
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+            <DropdownMenuSeparator />
+            <DropdownMenuGroup>
+              <DropdownMenuItem>
+                <BadgeCheck />
+                Account
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <CreditCard />
+                Billing
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Bell />
+                Notifications
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem variant="destructive" onClick={handleLogout}>
+              <LogOut />
+              Log out
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </SidebarMenuItem>
+    </SidebarMenu>
+  );
+}
