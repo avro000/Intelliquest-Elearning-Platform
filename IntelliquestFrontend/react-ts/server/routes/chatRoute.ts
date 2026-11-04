@@ -13,6 +13,7 @@ const chatLimiter = rateLimit({
   max: 60, // Limit each IP to 60 requests per windowMs
   standardHeaders: true,
   legacyHeaders: false,
+  validate: { xForwardedForHeader: false },
   message: { error: 'Too many requests from this IP, please try again after 15 minutes.' },
 });
 
