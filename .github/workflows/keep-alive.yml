@@ -1,21 +1,16 @@
-name: Keep Render Services Awake
+name: Keep Render Backend Awake
 
 on:
   schedule:
-    # Runs every 10 minutes (UTC) to prevent Render from going to sleep after 15 min
+    # Runs every 10 minutes to prevent the primary Spring Boot backend from sleeping
     - cron: '*/10 * * * *'
   workflow_dispatch:
 
 jobs:
-  ping-services:
+  ping-backend:
     runs-on: ubuntu-latest
     steps:
       - name: Ping Spring Boot Backend
         run: |
           echo "Pinging Backend..."
           curl -s -o /dev/null -w "%{http_code}" --max-time 30 https://intelliquest-elearning-platform.onrender.com/ || true
-
-      - name: Ping Chatbot Server
-        run: |
-          echo "Pinging Chatbot..."
-          curl -s -o /dev/null -w "%{http_code}" --max-time 30 https://intelliquest-chatbot.onrender.com/ || true
