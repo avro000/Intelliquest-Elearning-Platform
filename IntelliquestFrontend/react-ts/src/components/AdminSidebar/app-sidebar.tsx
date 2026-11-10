@@ -50,13 +50,19 @@ const data = {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const location = useLocation()
 
+  const isPathActive = (url: string) => {
+    const current = location.pathname.toLowerCase().replace(/\/$/, "")
+    const target = url.toLowerCase().replace(/\/$/, "")
+    return current === target
+  }
+
   return (
     <Sidebar variant="inset" {...props} collapsible="icon">
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <a href="/InstructorDashboard">
+              <a href="/AdminDashboard">
                 <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
                   <GraduationCapIcon className="size-4" />
                 </div>
@@ -75,14 +81,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain
           items={data.navMain.map((item) => ({
             ...item,
-            isActive: location.pathname === item.url,
+            isActive: isPathActive(item.url),
           }))}
         />
-        <NavProjects projects={data.projects} />
+        <NavProjects
+          projects={data.projects.map((item) => ({
+            ...item,
+            isActive: isPathActive(item.url),
+          }))}
+        />
         <NavSecondary
           items={data.navSecondary.map((item) => ({
             ...item,
-            isActive: location.pathname === item.url,
+            isActive: isPathActive(item.url),
           }))}
           className="mt-auto"
         />

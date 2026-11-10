@@ -11,6 +11,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Bot, Send, X, Minimize2, User, Loader2, RefreshCw, Sparkles, ChevronDown } from "lucide-react"
+import { useLocation } from "react-router-dom"
+import { useAuth } from "../AuthContext"
 
 interface Message {
   id: string
@@ -21,6 +23,15 @@ interface Message {
 }
 
 const ChatBotWidget: React.FC = () => {
+  const location = useLocation()
+  const { currentUser, profileImage } = useAuth()
+  const userAvatarSrc = profileImage || currentUser?.profilePictureUrl || ""
+
+  // Do not render chatbot on test/exam screen across all screen sizes
+  if (location.pathname.startsWith("/play-quiz")) {
+    return null
+  }
+
   const [open, setOpen] = useState(false)
   const [minimized, setMinimized] = useState(false)
   const [messages, setMessages] = useState<Message[]>([])
@@ -194,9 +205,10 @@ const ChatBotWidget: React.FC = () => {
       {!open && (
         <motion.button
           onClick={handleOpenChat}
-          className="fixed bottom-5 right-5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white p-4 rounded-full shadow-xl z-50 flex items-center justify-center"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          aria-label="Open IntelliBot Chat"
+          className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white p-3.5 sm:p-4 rounded-full shadow-2xl z-50 flex items-center justify-center cursor-pointer transition-all duration-200"
+          whileHover={{ scale: 1.08 }}
+          whileTap={{ scale: 0.94 }}
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.3 }}
@@ -209,34 +221,36 @@ const ChatBotWidget: React.FC = () => {
       <AnimatePresence>
         {open && !minimized && (
           <motion.div
-            className="h-[500px] fixed bottom-5 right-5 w-80 sm:w-96 bg-white dark:bg-gray-900 rounded-2xl shadow-2xl flex flex-col z-50 overflow-hidden border border-gray-200 dark:border-gray-800"
+            className="fixed inset-x-3 bottom-3 sm:inset-x-auto sm:bottom-6 sm:right-6 w-[calc(100vw-24px)] sm:w-[400px] max-w-[calc(100vw-24px)] sm:max-w-[400px] h-[82dvh] sm:h-[560px] max-h-[calc(100dvh-24px)] bg-white dark:bg-gray-900 rounded-2xl shadow-2xl flex flex-col z-50 overflow-hidden border border-gray-200 dark:border-gray-800"
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
           >
             {/* Header */}
-            <div className="p-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white flex items-center justify-between rounded-t-2xl">
-              <div className="flex items-center gap-2">
-                <Avatar className="h-8 w-8 bg-white/20">
-                  <AvatarImage src="/bot-avatar.png" alt="IntelliBot" />
+            <div className="px-4 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white flex items-center justify-between rounded-t-2xl shadow-md shrink-0">
+              <div className="flex items-center gap-2.5 min-w-0">
+                <Avatar className="h-8 w-8 bg-white/20 shrink-0">
                   <AvatarFallback className="bg-blue-700 text-white">
                     <Bot className="h-4 w-4" />
                   </AvatarFallback>
                 </Avatar>
-                <div>
-                  <h3 className="font-semibold text-sm">IntelliBot</h3>
-                  <p className="text-xs text-blue-100">Academic Assistant</p>
+                <div className="min-w-0">
+                  <h3 className="font-semibold text-sm leading-tight truncate">IntelliBot</h3>
+                  <p className="text-[11px] text-blue-100 flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    Academic Assistant
+                  </p>
                 </div>
               </div>
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1 shrink-0">
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="h-7 w-7 rounded-full text-white hover:bg-white/20"
+                        className="h-8 w-8 rounded-full text-white hover:bg-white/20 transition-colors cursor-pointer"
                         onClick={handleMinimize}
                       >
                         <Minimize2 className="h-4 w-4" />
@@ -254,7 +268,7 @@ const ChatBotWidget: React.FC = () => {
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="h-7 w-7 rounded-full text-white hover:bg-white/20"
+                        className="h-8 w-8 rounded-full text-white hover:bg-white/20 transition-colors cursor-pointer"
                         onClick={handleClose}
                       >
                         <X className="h-4 w-4" />
@@ -269,27 +283,26 @@ const ChatBotWidget: React.FC = () => {
             </div>
 
             {/* Messages */}
-            <ScrollArea className="flex-1 p-4 h-80">
-              <div className="overflow-scroll scrollbar-hidden space-y-4">
+            <ScrollArea className="flex-1 p-3 sm:p-4 overflow-y-auto">
+              <div className="space-y-3.5">
                 {messages.map((msg) => (
                   <div key={msg.id} className={`flex ${msg.from === "user" ? "justify-end" : "justify-start"} group`}>
                     {msg.from === "bot" && (
-                      <Avatar className="h-8 w-8 mr-2 mt-1 flex-shrink-0">
-                        <AvatarImage src="/bot-avatar.png" alt="IntelliBot" />
-                        <AvatarFallback className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-                          <Bot className="h-4 w-4" />
+                      <Avatar className="h-7 w-7 sm:h-8 sm:w-8 mr-2 mt-1 shrink-0 ring-1 ring-purple-500/20">
+                        <AvatarFallback className="bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs font-bold">
+                          <Bot className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                         </AvatarFallback>
                       </Avatar>
                     )}
 
                     <div
-                      className={`max-w-[75%] ${
+                      className={`max-w-[85%] sm:max-w-[80%] ${
                         msg.from === "user"
                           ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-2xl rounded-tr-none"
-                          : "bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-2xl rounded-tl-none"
-                      } px-4 py-2 shadow-sm`}
+                          : "bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-2xl rounded-tl-none border border-gray-200/50 dark:border-gray-700/50"
+                      } px-3.5 py-2.5 sm:px-4 sm:py-2.5 shadow-sm break-words`}
                     >
-                      <div className="text-sm" dangerouslySetInnerHTML={{ __html: formatMessageText(msg.text) }} />
+                      <div className="text-xs sm:text-sm leading-relaxed" dangerouslySetInnerHTML={{ __html: formatMessageText(msg.text) }} />
                       <div
                         className={`text-[10px] mt-1 opacity-70 ${msg.from === "user" ? "text-right" : "text-left"}`}
                       >
@@ -309,10 +322,10 @@ const ChatBotWidget: React.FC = () => {
                     </div>
 
                     {msg.from === "user" && (
-                      <Avatar className="h-8 w-8 ml-2 mt-1 flex-shrink-0">
-                        <AvatarImage src="/user-avatar.png" alt="You" />
-                        <AvatarFallback className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
-                          <User className="h-4 w-4" />
+                      <Avatar className="h-7 w-7 sm:h-8 sm:w-8 ml-2 mt-1 shrink-0 ring-1 ring-blue-500/20">
+                        {userAvatarSrc && <AvatarImage src={userAvatarSrc} alt="You" />}
+                        <AvatarFallback className="bg-blue-600 text-white text-xs font-semibold">
+                          {currentUser?.username ? currentUser.username.slice(0, 2).toUpperCase() : <User className="h-3.5 w-3.5 sm:h-4 sm:w-4" />}
                         </AvatarFallback>
                       </Avatar>
                     )}
@@ -321,10 +334,9 @@ const ChatBotWidget: React.FC = () => {
 
                 {typingIndicator && (
                   <div className="flex justify-start">
-                    <Avatar className="h-8 w-8 mr-2 mt-1">
-                      <AvatarImage src="/bot-avatar.png" alt="IntelliBot" />
-                      <AvatarFallback className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-                        <Bot className="h-4 w-4" />
+                    <Avatar className="h-7 w-7 sm:h-8 sm:w-8 mr-2 mt-1 shrink-0 ring-1 ring-purple-500/20">
+                      <AvatarFallback className="bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs font-bold">
+                        <Bot className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                       </AvatarFallback>
                     </Avatar>
                     <div className="bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-2xl rounded-tl-none px-4 py-3 shadow-sm">
@@ -348,35 +360,35 @@ const ChatBotWidget: React.FC = () => {
             </ScrollArea>
 
             {/* Input Area */}
-            <div className="p-3 border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900">
-              <div className="flex items-end gap-2">
-                <div className="relative flex-1">
+            <div className="p-3 sm:p-3.5 border-t border-gray-200 dark:border-gray-800 bg-gray-50/90 dark:bg-gray-900/90 backdrop-blur-sm shrink-0 w-full max-w-full overflow-hidden">
+              <div className="flex items-end gap-2 w-full max-w-full min-w-0">
+                <div className="relative flex-1 min-w-0 max-w-[calc(100%-52px)] overflow-hidden">
                   <Textarea
                     ref={inputRef}
-                    className="resize-none min-h-[44px] max-h-32 pr-10 py-3 rounded-xl border-gray-200 dark:border-gray-700 focus:border-blue-500 dark:focus:border-blue-400 focus:ring-1 focus:ring-blue-500 dark:focus:ring-blue-400"
+                    className="w-full max-w-full min-w-0 resize-none min-h-[44px] max-h-28 px-3.5 py-2.5 rounded-xl border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800/90 focus:border-blue-500 dark:focus:border-blue-400 focus:ring-1 focus:ring-blue-500 text-xs sm:text-sm leading-relaxed break-all overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
                     placeholder="Ask me anything..."
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={handleKeyDown}
                     rows={1}
                   />
-                  <div className="absolute right-2 bottom-2 text-xs text-gray-400">
-                    {input.length > 0 && "Press Enter to send"}
-                  </div>
                 </div>
                 <Button
                   onClick={sendMessage}
                   disabled={loading || !input.trim()}
-                  className="h-10 w-10 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
+                  aria-label="Send message"
+                  className="h-11 w-11 shrink-0 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-md disabled:opacity-40 transition-all cursor-pointer flex items-center justify-center"
                 >
                   {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
                 </Button>
               </div>
-              <div className="mt-2 text-center">
-                <p className="text-xs text-gray-400 dark:text-gray-500 flex items-center justify-center">
-                  <Sparkles className="h-3 w-3 mr-1" />
+
+              {/* Footer */}
+              <div className="flex items-center justify-center mt-2 text-[11px] text-gray-400 dark:text-gray-500 select-none">
+                <span className="flex items-center gap-1">
+                  <Sparkles className="h-3 w-3 text-purple-500" />
                   Powered by IntelliQuest AI
-                </p>
+                </span>
               </div>
             </div>
           </motion.div>
@@ -387,7 +399,7 @@ const ChatBotWidget: React.FC = () => {
       <AnimatePresence>
         {open && minimized && (
           <motion.div
-            className="fixed bottom-5 right-5 bg-white dark:bg-gray-900 rounded-full shadow-xl z-50 border border-gray-200 dark:border-gray-800 flex items-center"
+            className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 bg-white dark:bg-gray-900 rounded-full shadow-2xl z-50 border border-gray-200 dark:border-gray-800 flex items-center"
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
@@ -396,25 +408,25 @@ const ChatBotWidget: React.FC = () => {
             <Button
               onClick={handleMaximize}
               variant="ghost"
-              className="h-12 rounded-full px-4 flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700"
+              className="h-11 sm:h-12 rounded-full px-3.5 sm:px-4 flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 cursor-pointer"
             >
               <Avatar className="h-6 w-6 bg-white/20">
                 <AvatarFallback>
-                  <Bot className="h-3 w-3" />
+                  <Bot className="h-3.5 w-3.5" />
                 </AvatarFallback>
               </Avatar>
-              <span className="font-medium text-sm">IntelliBot</span>
+              <span className="font-medium text-xs sm:text-sm">IntelliBot</span>
               {unreadCount > 0 && (
                 <Badge className="bg-red-500 text-white h-5 w-5 flex items-center justify-center p-0 text-xs">
                   {unreadCount}
                 </Badge>
               )}
-              <ChevronDown className="h-4 w-4 ml-1" />
+              <ChevronDown className="h-4 w-4 ml-0.5" />
             </Button>
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8 rounded-full text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 mr-1"
+              className="h-8 w-8 rounded-full text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 mr-1.5 cursor-pointer"
               onClick={handleClose}
             >
               <X className="h-4 w-4" />

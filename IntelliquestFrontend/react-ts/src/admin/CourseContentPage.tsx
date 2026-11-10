@@ -474,19 +474,19 @@ const CourseContentPage: React.FC = () => {
         </div>
 
         {/* Two-column layout skeleton */}
-        <div className="flex-1 grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="flex-1 grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 min-w-0 w-full">
           {/* Main Content (Player) Skeleton */}
-          <div className="lg:col-span-2 space-y-4">
-            <Skeleton className="h-[480px] w-full rounded-2xl" />
-            <div className="rounded-2xl p-6 bg-white/70 dark:bg-gray-800/70 border border-gray-200/50 dark:border-gray-700/50 space-y-3">
-              <Skeleton className="h-7 w-2/3 rounded-lg" />
+          <div className="lg:col-span-2 space-y-4 min-w-0">
+            <Skeleton className="h-[210px] sm:h-[320px] lg:h-[480px] w-full rounded-2xl" />
+            <div className="rounded-2xl p-4 sm:p-6 bg-white/70 dark:bg-gray-800/70 border border-gray-200/50 dark:border-gray-700/50 space-y-3">
+              <Skeleton className="h-6 sm:h-7 w-2/3 rounded-lg" />
               <Skeleton className="h-4 w-full rounded" />
               <Skeleton className="h-4 w-4/5 rounded" />
             </div>
           </div>
 
           {/* Lessons List Sidebar Skeleton */}
-          <div className="rounded-2xl p-6 bg-white/70 dark:bg-gray-800/70 border border-gray-200/50 dark:border-gray-700/50 space-y-4">
+          <div className="hidden lg:block rounded-2xl p-6 bg-white/70 dark:bg-gray-800/70 border border-gray-200/50 dark:border-gray-700/50 space-y-4">
             <Skeleton className="h-6 w-36 rounded-md" />
             {Array(5)
               .fill(0)
@@ -526,17 +526,19 @@ const CourseContentPage: React.FC = () => {
     )
   }
 
+  const currentLessonIndex = selectedLesson ? lessons.findIndex((l) => l.id === selectedLesson.id) : 0
+
   return (
-    <div className="h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-blue-50 dark:from-gray-900 dark:via-slate-900 dark:to-blue-950 overflow-hidden">
-      <div className="flex h-full">
+    <div className="min-h-screen lg:h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-blue-50 dark:from-gray-900 dark:via-slate-900 dark:to-blue-950 overflow-x-hidden lg:overflow-hidden w-full max-w-full">
+      <div className="flex flex-col lg:flex-row h-auto lg:h-full w-full">
         {/* Main Content Area */}
-        <div className="flex flex-1 flex-col h-full">
-          {/* Enhanced Header */}
+        <div className="flex flex-1 flex-col h-auto lg:h-full min-w-0 w-full overflow-y-auto lg:overflow-hidden">
+          {/* Desktop Header */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="flex-shrink-0 bg-gradient-to-r from-white via-blue-50 to-indigo-50 dark:from-gray-800 dark:via-gray-800 dark:to-gray-800 border-b border-gray-200/100 dark:border-gray-700/50 px-8 py-6 shadow-none backdrop-blur-sm"
+            className="hidden lg:block flex-shrink-0 sticky top-0 z-40 bg-gradient-to-r from-white via-blue-50 to-indigo-50 dark:from-gray-800 dark:via-gray-800 dark:to-gray-800 border-b border-gray-200/100 dark:border-gray-700/50 px-8 py-6 shadow-none backdrop-blur-sm"
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
@@ -590,42 +592,86 @@ const CourseContentPage: React.FC = () => {
             </div>
           </motion.div>
 
+          {/* Mobile Fixed Header */}
+          <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-200/80 dark:border-gray-800 px-3.5 py-2.5 sm:py-3 shadow-xs">
+            <div className="flex items-center justify-between gap-2.5">
+              <div className="flex items-center gap-2 min-w-0 flex-1">
+                <Button
+                  onClick={() => navigate("/UserDashboard")}
+                  variant="ghost"
+                  size="icon"
+                  className="h-9 w-9 rounded-xl shrink-0 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer"
+                  aria-label="Back to dashboard"
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                </Button>
+                <div className="min-w-0 flex-1">
+                  <h1 className="text-sm font-bold text-gray-900 dark:text-white truncate leading-tight">
+                    {courseTitle}
+                  </h1>
+                  <p className="text-[11px] text-muted-foreground truncate">
+                    Lesson {currentLessonIndex + 1} of {lessons.length} • {Math.round(progressPercentage)}% completed
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 shrink-0">
+                {progressPercentage === 100 && (
+                  <Button
+                    onClick={() => setShowCertificate(true)}
+                    size="sm"
+                    className="h-7 px-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-semibold text-xs rounded-lg shadow-xs"
+                  >
+                    <Award className="h-3.5 w-3.5 mr-1" />
+                    <span>Cert</span>
+                  </Button>
+                )}
+                <div className="w-16">
+                  <Progress value={progressPercentage} className="h-2 bg-gray-200 dark:bg-gray-700" />
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Enhanced Content Viewer with separate scroll */}
-          <div className="flex-1 p-8 overflow-y-auto scrollbar-hidden">
+          <div className="flex-1 pt-[60px] sm:pt-[66px] lg:pt-8 p-3.5 sm:p-4 lg:p-8 overflow-y-auto lg:overflow-y-auto scrollbar-hidden min-w-0 w-full">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
+              className="w-full min-w-0"
             >
-              <Card className="h-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 shadow-2xl rounded-3xl overflow-hidden">
-                <CardHeader className="pb-6 border-b border-gray-200/100 dark:border-gray-700/50">
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="flex items-center gap-4">
-                      <div className="bg-gradient-to-br from-blue-500 to-purple-600 p-3 rounded-xl shadow-lg">
+              <Card className="h-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 shadow-lg lg:shadow-2xl rounded-2xl lg:rounded-3xl overflow-hidden w-full">
+                <CardHeader className="p-3.5 sm:p-4 lg:p-6 pb-3 sm:pb-4 lg:pb-6 border-b border-gray-200/100 dark:border-gray-700/50">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <CardTitle className="flex items-center gap-3 sm:gap-4 min-w-0">
+                      <div className="bg-gradient-to-br from-blue-500 to-purple-600 p-2 sm:p-3 rounded-xl shadow-lg shrink-0">
                         {selectedLesson.type === "video" ? (
-                          <Play className="h-6 w-6 text-white" />
+                          <Play className="h-4 w-4 sm:h-6 sm:w-6 text-white" />
                         ) : (
-                          <FileText className="h-6 w-6 text-white" />
+                          <FileText className="h-4 w-4 sm:h-6 sm:w-6 text-white" />
                         )}
                       </div>
-                      <div>
-                        <h3 className="text-xl font-bold text-gray-900 dark:text-white">{selectedLesson.title}</h3>
-                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                      <div className="min-w-0 flex-1">
+                        <h3 className="text-base sm:text-xl font-bold text-gray-900 dark:text-white truncate">
+                          {selectedLesson.title}
+                        </h3>
+                        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-0.5">
                           {selectedLesson.type === "video" ? "Video Lesson" : "Study Material"}
                         </p>
                       </div>
                     </CardTitle>
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
                       <Badge
                         variant={selectedLesson.completed ? "default" : "secondary"}
-                        className={`font-medium px-4 py-2 rounded-xl ${selectedLesson.completed
+                        className={`font-medium text-xs sm:text-sm px-3 py-1 sm:px-4 sm:py-2 rounded-xl shrink-0 ${selectedLesson.completed
                           ? "bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg"
                           : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300"
                           }`}
                       >
                         {selectedLesson.completed ? (
                           <>
-                            <CheckCircle className="h-4 w-4 mr-2" />
+                            <CheckCircle className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1.5" />
                             Completed
                           </>
                         ) : (
@@ -635,25 +681,25 @@ const CourseContentPage: React.FC = () => {
                       {selectedLesson.type === "video" && selectedLesson.duration && (
                         <Badge
                           variant="outline"
-                          className="flex items-center gap-2 font-medium px-4 py-2 rounded-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm"
+                          className="flex items-center gap-1.5 font-medium text-xs sm:text-sm px-2.5 py-1 sm:px-4 sm:py-2 rounded-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm shrink-0"
                         >
-                          <Clock className="h-4 w-4" />
+                          <Clock className="h-3 w-3 sm:h-4 sm:w-4" />
                           <span>{selectedLesson.duration}</span>
                         </Badge>
                       )}
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent className="flex-1 px-6">
+                <CardContent className="flex-1 p-3.5 sm:p-4 lg:p-6 min-w-0">
                   {selectedLesson.type === "video" ? (
-                    <div className="relative rounded-2xl overflow-hidden bg-black shadow-2xl">
+                    <div className="relative rounded-xl lg:rounded-2xl overflow-hidden bg-black shadow-xl lg:shadow-2xl w-full aspect-video lg:h-[500px]">
                       {getCleanVideoUrl(selectedLesson.url) ? (
                         <ReactPlayer
                           key={getCleanVideoUrl(selectedLesson.url)}
                           url={getCleanVideoUrl(selectedLesson.url)}
                           controls
                           width="100%"
-                          height="500px"
+                          height="100%"
                           onEnded={markLessonComplete}
                           onProgress={({ played }) => {
                             if (played >= 0.98) {
@@ -663,52 +709,176 @@ const CourseContentPage: React.FC = () => {
                           onError={(e) => console.warn("Video player warning/error:", e)}
                         />
                       ) : (
-                        <div className="flex items-center justify-center h-[500px] text-gray-400">
+                        <div className="flex items-center justify-center h-full text-gray-400">
                           Video not available
                         </div>
                       )}
                     </div>
                   ) : pdfBlobUrl ? (
-                    <div className="space-y-6">
+                    <div className="space-y-4 sm:space-y-6">
                       <div className="flex justify-end">
                         <Button
                           onClick={handleDownloadPdf}
                           variant="outline"
-                          className="flex items-center gap-2 font-medium bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-xl px-6 py-3"
+                          className="flex items-center gap-2 font-medium bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-xl px-4 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm"
                         >
                           <Download className="h-4 w-4" />
                           <span>Download PDF</span>
                         </Button>
                       </div>
-                      <div className="w-full h-[500px] border border-gray-200/100 dark:border-gray-700/50 rounded-2xl overflow-hidden shadow-none">
+                      <div className="w-full h-[360px] sm:h-[450px] lg:h-[500px] border border-gray-200/100 dark:border-gray-700/50 rounded-2xl overflow-hidden shadow-none">
                         <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js">
                           <Viewer fileUrl={pdfBlobUrl} />
                         </Worker>
                       </div>
                     </div>
                   ) : (
-                    <div className="flex items-center justify-center h-[500px] bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 rounded-2xl">
+                    <div className="flex items-center justify-center h-[260px] sm:h-[350px] lg:h-[500px] bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 rounded-2xl">
                       <div className="text-center">
                         <div className="relative">
-                          <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-200 dark:border-blue-800 mx-auto mb-4"></div>
-                          <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-600 absolute top-0 left-1/2 transform -translate-x-1/2"></div>
+                          <div className="animate-spin rounded-full h-10 w-10 sm:h-12 sm:w-12 border-4 border-blue-200 dark:border-blue-800 mx-auto mb-3 sm:mb-4"></div>
+                          <div className="animate-spin rounded-full h-10 w-10 sm:h-12 sm:w-12 border-t-4 border-blue-600 absolute top-0 left-1/2 transform -translate-x-1/2"></div>
                         </div>
-                        <p className="text-gray-500 dark:text-gray-400 font-medium">Loading content...</p>
+                        <p className="text-gray-500 dark:text-gray-400 font-medium text-xs sm:text-sm">Loading content...</p>
                       </div>
                     </div>
                   )}
+
+                  {/* Mobile Quick Action Button */}
+                  <div className="lg:hidden mt-3.5">
+                    <Button
+                      onClick={markLessonComplete}
+                      disabled={selectedLesson?.completed}
+                      className={`w-full font-bold py-3 rounded-xl shadow-md transition-all text-xs sm:text-sm flex items-center justify-center ${
+                        selectedLesson?.completed
+                          ? "bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed"
+                          : "bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 hover:from-green-700 hover:via-emerald-700 hover:to-teal-700 text-white"
+                      }`}
+                    >
+                      {selectedLesson?.completed ? (
+                        <>
+                          <CheckCircle className="h-4 w-4 mr-1.5" />
+                          Lesson Completed
+                        </>
+                      ) : (
+                        <>
+                          <Zap className="h-4 w-4 mr-1.5" />
+                          Mark Lesson Complete
+                        </>
+                      )}
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
             </motion.div>
+
+            {/* Mobile Curriculum Section */}
+            <div className="lg:hidden mt-4 space-y-3 pb-6">
+              <Card className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-gray-200/60 dark:border-gray-700/60 rounded-2xl shadow-md overflow-hidden">
+                <CardHeader className="p-3.5 pb-2.5 bg-gradient-to-br from-blue-50/70 via-indigo-50/70 to-purple-50/70 dark:from-blue-950/40 dark:via-indigo-950/40 dark:to-purple-950/40 border-b border-gray-200/60 dark:border-gray-700/60">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="bg-gradient-to-br from-blue-500 to-purple-600 p-1.5 rounded-lg text-white">
+                        <BookOpen className="h-4 w-4" />
+                      </div>
+                      <h3 className="font-bold text-sm text-gray-900 dark:text-white">Course Curriculum</h3>
+                    </div>
+                    <span className="text-xs font-semibold text-muted-foreground">
+                      {completedLessons}/{lessons.length} Done
+                    </span>
+                  </div>
+                  <div className="mt-2.5 space-y-1.5">
+                    <Progress value={progressPercentage} className="h-2 bg-gray-200 dark:bg-gray-700" />
+                  </div>
+                  {progressPercentage === 100 && (
+                    <Button
+                      onClick={() => setShowCertificate(true)}
+                      size="sm"
+                      className="w-full mt-2.5 bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 text-white font-bold py-2 rounded-xl shadow-sm text-xs flex items-center justify-center"
+                    >
+                      <Award className="h-4 w-4 mr-1.5" />
+                      View Certificate
+                    </Button>
+                  )}
+                </CardHeader>
+                <CardContent className="p-2.5 space-y-2">
+                  {lessons.map((lesson, index) => {
+                    const isCurrent = selectedLesson.id === lesson.id
+                    return (
+                      <div
+                        key={lesson.id}
+                        onClick={() => {
+                          setSelectedLesson(lesson)
+                          window.scrollTo({ top: 0, behavior: "smooth" })
+                        }}
+                        className={`p-3 rounded-xl cursor-pointer transition-all duration-200 border ${
+                          isCurrent
+                            ? "bg-blue-50/90 dark:bg-blue-950/50 border-blue-400 dark:border-blue-600 shadow-sm"
+                            : "bg-card hover:bg-muted/50 border-gray-200/60 dark:border-gray-700/60"
+                        }`}
+                      >
+                        <div className="flex items-center gap-2.5">
+                          <div className="shrink-0">
+                            {lesson.completed ? (
+                              <div className="bg-gradient-to-br from-green-500 to-emerald-600 p-1.5 rounded-full text-white">
+                                <CheckCircle className="h-3.5 w-3.5" />
+                              </div>
+                            ) : lesson.type === "video" ? (
+                              <div className="bg-gradient-to-br from-blue-500 to-purple-600 p-1.5 rounded-full text-white">
+                                <Play className="h-3.5 w-3.5" />
+                              </div>
+                            ) : (
+                              <div className="bg-gradient-to-br from-orange-500 to-red-600 p-1.5 rounded-full text-white">
+                                <FileText className="h-3.5 w-3.5" />
+                              </div>
+                            )}
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center justify-between gap-1">
+                              <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
+                                Lesson {index + 1}
+                              </span>
+                              {lesson.completed && (
+                                <Badge className="bg-emerald-600 text-white text-[10px] px-1.5 py-0 rounded-md">
+                                  Done
+                                </Badge>
+                              )}
+                            </div>
+                            <h4
+                              className={`text-xs font-semibold truncate leading-tight mt-0.5 ${
+                                isCurrent ? "text-blue-700 dark:text-blue-300 font-bold" : "text-gray-900 dark:text-white"
+                              }`}
+                            >
+                              {lesson.title}
+                            </h4>
+                            <div className="flex items-center gap-2 mt-1">
+                              <Badge variant="outline" className="text-[10px] px-1.5 py-0 font-normal">
+                                {lesson.type === "video" ? "Video" : "PDF"}
+                              </Badge>
+                              {lesson.duration && (
+                                <span className="text-[10px] text-muted-foreground flex items-center gap-0.5">
+                                  <Clock className="h-2.5 w-2.5" />
+                                  {lesson.duration}
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
 
-        {/* Enhanced Sidebar with fixed header, scrollable content, and fixed footer */}
+        {/* Enhanced Desktop Sidebar with fixed header, scrollable content, and fixed footer */}
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="w-96 bg-white/90 dark:bg-gray-800/90 border-l border-gray-200/100 dark:border-gray-700/50 shadow-none flex flex-col h-full"
+          className="hidden lg:flex w-96 flex-shrink-0 bg-white/90 dark:bg-gray-800/90 border-l border-gray-200/100 dark:border-gray-700/50 shadow-none flex-col h-full"
         >
           {/* Fixed Sidebar Header */}
           <div className="flex-shrink-0 p-8 border-b border-gray-200/100 dark:border-gray-700/50 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-blue-950/50 dark:via-indigo-950/50 dark:to-purple-950/50">

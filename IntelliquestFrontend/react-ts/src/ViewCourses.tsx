@@ -75,43 +75,47 @@ export default function ViewCourses() {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center justify-between gap-2">
-          <div className="flex items-center gap-2 px-4">
-            <SidebarTrigger className="-ml-1" />
-            <Separator orientation="vertical" className="mr-2 h-4" />
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem className="hidden md:block">
+      <SidebarInset className="overflow-y-auto">
+        <header className="flex h-14 sm:h-16 shrink-0 items-center justify-between gap-2 px-3 sm:px-4 border-b">
+          <div className="flex items-center gap-2 min-w-0 flex-1">
+            <SidebarTrigger className="-ml-1 shrink-0" />
+            <Separator orientation="vertical" className="mr-1 sm:mr-2 h-4 shrink-0" />
+            <Breadcrumb className="min-w-0 flex-1">
+              <BreadcrumbList className="flex-nowrap">
+                <BreadcrumbItem className="hidden md:block shrink-0">
                   <span>Admin</span>
                 </BreadcrumbItem>
 
-                <BreadcrumbSeparator />
+                <BreadcrumbSeparator className="hidden md:block shrink-0" />
 
                 {!editingCourse ? (
-                  <BreadcrumbItem>
+                  <BreadcrumbItem className="shrink-0">
                     <BreadcrumbPage>Courses</BreadcrumbPage>
                   </BreadcrumbItem>
                 ) : (
                   <>
-                    <BreadcrumbItem>
-                      <span className="cursor-pointer" onClick={handleBack}>Courses</span>
+                    <BreadcrumbItem className="shrink-0">
+                      <span className="cursor-pointer hover:underline text-xs sm:text-sm font-medium" onClick={handleBack}>
+                        Courses
+                      </span>
                     </BreadcrumbItem>
-                    <BreadcrumbSeparator />
-                    <BreadcrumbItem>
-                      <BreadcrumbPage className="capitalize">Editing course: {editingCourse.title}</BreadcrumbPage>
+                    <BreadcrumbSeparator className="shrink-0" />
+                    <BreadcrumbItem className="min-w-0">
+                      <BreadcrumbPage className="capitalize truncate max-w-[170px] xs:max-w-[240px] sm:max-w-md md:max-w-xl text-xs sm:text-sm font-semibold">
+                        Editing: {editingCourse.title}
+                      </BreadcrumbPage>
                     </BreadcrumbItem>
                   </>
                 )}
               </BreadcrumbList>
             </Breadcrumb>
           </div>
-          <div className="px-4">
+          <div className="shrink-0 pl-1">
             <ModeToggle />
           </div>
         </header>
 
-        <div className="flex flex-col gap-4 p-4 pt-0">
+        <div className="flex flex-col gap-4 p-3 sm:p-5 pt-3 sm:pt-4">
           {editingCourse ? (
             <EditCourse course={editingCourse} onCancel={handleBack} />
           ) : (

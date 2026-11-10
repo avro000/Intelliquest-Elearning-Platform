@@ -182,51 +182,52 @@ const CourseDetailsPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-blue-50 dark:from-gray-900 dark:via-slate-900 dark:to-blue-950">
-        <UserNavbar userEmail={userEmail} />
-        <div className="max-w-7xl mx-auto px-6 py-10 space-y-8">
-          <Skeleton className="h-10 w-28 rounded-xl" />
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-blue-50 dark:from-gray-900 dark:via-slate-900 dark:to-blue-950 w-full max-w-full overflow-x-hidden">
+        <div className="fixed top-0 left-0 right-0 z-50">
+          <UserNavbar userEmail={userEmail} />
+        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-6 sm:pb-10 space-y-6 sm:space-y-8">
+          <Skeleton className="h-9 sm:h-10 w-28 rounded-xl" />
 
           {/* Hero Banner Skeleton */}
-          <div className="rounded-3xl p-8 bg-white/70 dark:bg-gray-800/70 border border-gray-200/50 dark:border-gray-700/50 shadow-xl space-y-6">
+          <div className="rounded-2xl sm:rounded-3xl p-4 sm:p-8 bg-white/70 dark:bg-gray-800/70 border border-gray-200/50 dark:border-gray-700/50 shadow-xl space-y-4 sm:space-y-6">
             <div className="flex gap-2">
               <Skeleton className="h-6 w-20 rounded-full" />
               <Skeleton className="h-6 w-16 rounded-full" />
             </div>
-            <Skeleton className="h-10 w-3/5 rounded-xl" />
-            <Skeleton className="h-5 w-4/5 rounded-lg" />
-            <div className="flex gap-4">
-              <Skeleton className="h-6 w-32 rounded-md" />
-              <Skeleton className="h-6 w-32 rounded-md" />
+            <Skeleton className="h-8 sm:h-10 w-3/5 rounded-xl" />
+            <Skeleton className="h-4 sm:h-5 w-4/5 rounded-lg" />
+            <div className="flex flex-wrap gap-3 sm:gap-4">
+              <Skeleton className="h-5 sm:h-6 w-28 sm:w-32 rounded-md" />
+              <Skeleton className="h-5 sm:h-6 w-28 sm:w-32 rounded-md" />
             </div>
           </div>
 
           {/* Main content grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2 space-y-6">
-              <div className="rounded-2xl p-6 bg-white/60 dark:bg-gray-800/60 border border-gray-200/50 dark:border-gray-700/50 space-y-4">
-                <Skeleton className="h-8 w-48 rounded-lg" />
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
+            <div className="lg:col-span-2 space-y-4 sm:space-y-6 min-w-0">
+              <div className="rounded-2xl p-4 sm:p-6 bg-white/60 dark:bg-gray-800/60 border border-gray-200/50 dark:border-gray-700/50 space-y-3 sm:space-y-4">
+                <Skeleton className="h-7 sm:h-8 w-40 sm:w-48 rounded-lg" />
                 <Skeleton className="h-4 w-full rounded" />
                 <Skeleton className="h-4 w-full rounded" />
                 <Skeleton className="h-4 w-3/4 rounded" />
               </div>
-              <div className="rounded-2xl p-6 bg-white/60 dark:bg-gray-800/60 border border-gray-200/50 dark:border-gray-700/50 space-y-4">
-                <Skeleton className="h-8 w-40 rounded-lg" />
-                <Skeleton className="h-14 w-full rounded-xl" />
-                <Skeleton className="h-14 w-full rounded-xl" />
-                <Skeleton className="h-14 w-full rounded-xl" />
+              <div className="rounded-2xl p-4 sm:p-6 bg-white/60 dark:bg-gray-800/60 border border-gray-200/50 dark:border-gray-700/50 space-y-3 sm:space-y-4">
+                <Skeleton className="h-7 sm:h-8 w-36 sm:w-40 rounded-lg" />
+                <Skeleton className="h-12 sm:h-14 w-full rounded-xl" />
+                <Skeleton className="h-12 sm:h-14 w-full rounded-xl" />
               </div>
             </div>
 
-            <div>
-              <div className="rounded-2xl p-6 bg-white/60 dark:bg-gray-800/60 border border-gray-200/50 dark:border-gray-700/50 space-y-5 sticky top-24">
-                <Skeleton className="h-48 w-full rounded-xl" />
-                <Skeleton className="h-10 w-32 rounded-lg" />
-                <Skeleton className="h-12 w-full rounded-xl" />
-                <div className="space-y-3 pt-4 border-t border-gray-200/50 dark:border-gray-700/50">
-                  <Skeleton className="h-5 w-full rounded" />
-                  <Skeleton className="h-5 w-full rounded" />
-                  <Skeleton className="h-5 w-full rounded" />
+            <div className="min-w-0">
+              <div className="rounded-2xl p-4 sm:p-6 bg-white/60 dark:bg-gray-800/60 border border-gray-200/50 dark:border-gray-700/50 space-y-4 sm:space-y-5 static lg:sticky lg:top-24">
+                <Skeleton className="h-44 sm:h-48 w-full rounded-xl" />
+                <Skeleton className="h-8 sm:h-10 w-32 rounded-lg" />
+                <Skeleton className="h-10 sm:h-12 w-full rounded-xl" />
+                <div className="space-y-2.5 sm:space-y-3 pt-4 border-t border-gray-200/50 dark:border-gray-700/50">
+                  <Skeleton className="h-4 sm:h-5 w-full rounded" />
+                  <Skeleton className="h-4 sm:h-5 w-full rounded" />
+                  <Skeleton className="h-4 sm:h-5 w-full rounded" />
                 </div>
               </div>
             </div>
@@ -238,9 +239,11 @@ const CourseDetailsPage: React.FC = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-blue-50 dark:from-gray-900 dark:via-slate-900 dark:to-blue-950">
-        <UserNavbar userEmail={userEmail} />
-        <div className="max-w-4xl mx-auto px-6 py-16">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-blue-50 dark:from-gray-900 dark:via-slate-900 dark:to-blue-950 w-full max-w-full overflow-x-hidden">
+        <div className="fixed top-0 left-0 right-0 z-50">
+          <UserNavbar userEmail={userEmail} />
+        </div>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-24 sm:pt-28 pb-10 sm:py-16">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -251,12 +254,12 @@ const CourseDetailsPage: React.FC = () => {
               <AlertTitle className="text-red-800 dark:text-red-300 text-lg font-bold">Error Loading Course</AlertTitle>
               <AlertDescription className="text-red-700 dark:text-red-400">{error}</AlertDescription>
             </Alert>
-            <div className="flex justify-center mt-8">
+            <div className="flex justify-center mt-6 sm:mt-8">
               <Button
                 onClick={() => navigate("/UserDashboard")}
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold px-8 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold px-6 sm:px-8 py-2.5 sm:py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
               >
-                <ArrowLeft className="h-5 w-5 mr-2" />
+                <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
                 Back to Dashboard
               </Button>
             </div>
@@ -274,26 +277,28 @@ const CourseDetailsPage: React.FC = () => {
   const reviewCount = getRandomReviewCount(course.courseId)
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-blue-50 dark:from-gray-900 dark:via-slate-900 dark:to-blue-950">
-      <UserNavbar userEmail={userEmail} />
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-blue-50 dark:from-gray-900 dark:via-slate-900 dark:to-blue-950 w-full max-w-full overflow-x-hidden">
+      <div className="fixed top-0 left-0 right-0 z-50">
+        <UserNavbar userEmail={userEmail} />
+      </div>
 
       {/* Enhanced Hero Section */}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden w-full max-w-full pt-16 sm:pt-20">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700"></div>
         <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=&quot;60&quot; height=&quot;60&quot; viewBox=&quot;0 0 60 60&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;%3E%3Cg fill=&quot;none&quot; fillRule=&quot;evenodd&quot;%3E%3Cg fill=&quot;%23ffffff&quot; fillOpacity=&quot;0.05&quot;%3E%3Ccircle cx=&quot;30&quot; cy=&quot;30&quot; r=&quot;2&quot;/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-        <div className="relative px-6 py-12">
-          <div className="max-w-7xl mx-auto">
+        <div className="relative px-4 sm:px-6 py-8 sm:py-12">
+          <div className="max-w-7xl mx-auto w-full min-w-0">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="mb-8"
+              className="mb-4 sm:mb-8"
             >
               <Button
                 onClick={() => navigate("/UserDashboard")}
                 variant="outline"
-                className="bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/20 hover:text-white rounded-xl px-6 py-2 mb-6"
+                className="bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/20 hover:text-white rounded-xl px-4 sm:px-6 py-2 text-xs sm:text-sm"
               >
                 <ArrowLeft className="h-4 w-4 mr-2" />
                 Back to Courses
@@ -304,46 +309,48 @@ const CourseDetailsPage: React.FC = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-white"
+              className="text-white min-w-0"
             >
-              <div className="flex flex-wrap gap-3 mb-6">
+              <div className="flex flex-wrap gap-2 sm:gap-3 mb-4 sm:mb-6">
                 <Badge
-                  className={`${getCategoryColor(course.category)} text-sm font-bold px-4 py-2 rounded-lg shadow-lg`}
+                  className={`${getCategoryColor(course.category)} text-xs sm:text-sm font-semibold sm:font-bold px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg shadow-md`}
                 >
                   {course.category}
                 </Badge>
-                <Badge className={`${getLevelColor(course.level)} text-sm font-bold px-4 py-2 rounded-lg shadow-lg`}>
+                <Badge className={`${getLevelColor(course.level)} text-xs sm:text-sm font-semibold sm:font-bold px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg shadow-md`}>
                   {course.level}
                 </Badge>
-                <Badge className="bg-gradient-to-r from-teal-500 to-cyan-600 text-white text-sm font-bold px-4 py-2 rounded-lg shadow-lg">
-                  <Globe className="h-4 w-4 mr-1" />
+                <Badge className="bg-gradient-to-r from-teal-500 to-cyan-600 text-white text-xs sm:text-sm font-semibold sm:font-bold px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg shadow-md">
+                  <Globe className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1 shrink-0" />
                   {course.language}
                 </Badge>
                 {isEnrolled && (
-                  <Badge className="bg-gradient-to-r from-green-500 to-emerald-600 text-white text-sm font-bold px-4 py-2 rounded-lg shadow-lg">
-                    <CheckCircle className="h-4 w-4 mr-1" />
+                  <Badge className="bg-gradient-to-r from-green-500 to-emerald-600 text-white text-xs sm:text-sm font-semibold sm:font-bold px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg shadow-md">
+                    <CheckCircle className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1 shrink-0" />
                     Enrolled
                   </Badge>
                 )}
               </div>
 
-              <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">{course.title}</h1>
+              <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight break-words">
+                {course.title}
+              </h1>
 
-              <div className="flex flex-wrap items-center gap-6 text-blue-100">
-                <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-3 sm:gap-6 text-xs sm:text-sm text-blue-100">
+                <div className="flex items-center gap-1.5 sm:gap-2">
                   <div className="flex items-center gap-1 text-yellow-400">
-                    <Star className="h-5 w-5 fill-current" />
+                    <Star className="h-4 w-4 sm:h-5 sm:w-5 fill-current shrink-0" />
                     <span className="font-bold text-white">{rating}</span>
                   </div>
-                  <span className="text-sm">({reviewCount} reviews)</span>
+                  <span className="opacity-90">({reviewCount} reviews)</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Users className="h-5 w-5" />
-                  <span className="text-sm">{studentCount} students enrolled</span>
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <Users className="h-4 w-4 sm:h-5 sm:w-5 shrink-0" />
+                  <span>{studentCount} students enrolled</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <TrendingUp className="h-5 w-5" />
-                  <span className="text-sm">Trending Course</span>
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5 shrink-0" />
+                  <span>Trending Course</span>
                 </div>
               </div>
             </motion.div>
@@ -352,25 +359,26 @@ const CourseDetailsPage: React.FC = () => {
       </section>
 
       {/* Main Content */}
-      <section className="px-6 py-16">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+      <section className="px-4 sm:px-6 py-8 sm:py-16 w-full max-w-full overflow-x-hidden">
+        <div className="max-w-7xl mx-auto w-full min-w-0">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12 w-full max-w-full">
             {/* Left Column - Course Details */}
-            <div className="lg:col-span-2 space-y-12">
+            <div className="lg:col-span-2 space-y-6 sm:space-y-10 min-w-0 w-full">
               {/* Course Description */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
                 viewport={{ once: true }}
+                className="w-full min-w-0"
               >
-                <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-3xl shadow-xl">
-                  <CardContent className="p-8">
-                    <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
-                      <BookOpen className="h-8 w-8 mr-3 text-blue-600" />
+                <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-2xl sm:rounded-3xl shadow-xl w-full">
+                  <CardContent className="p-4 sm:p-6 md:p-8">
+                    <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6 flex items-center">
+                      <BookOpen className="h-6 w-6 sm:h-8 sm:w-8 mr-2.5 sm:mr-3 text-blue-600 shrink-0" />
                       Course Overview
                     </h2>
-                    <p className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed whitespace-pre-line">
+                    <p className="text-gray-700 dark:text-gray-300 text-sm sm:text-base md:text-lg leading-relaxed whitespace-pre-line break-words">
                       {course.description}
                     </p>
                   </CardContent>
@@ -384,22 +392,23 @@ const CourseDetailsPage: React.FC = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.1 }}
                   viewport={{ once: true }}
+                  className="w-full min-w-0"
                 >
-                  <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-3xl shadow-xl">
-                    <CardContent className="p-8">
-                      <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
-                        <Award className="h-8 w-8 mr-3 text-purple-600" />
+                  <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-2xl sm:rounded-3xl shadow-xl w-full">
+                    <CardContent className="p-4 sm:p-6 md:p-8">
+                      <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6 flex items-center">
+                        <Award className="h-6 w-6 sm:h-8 sm:w-8 mr-2.5 sm:mr-3 text-purple-600 shrink-0" />
                         Meet Your Instructor
                       </h2>
-                      <div className="flex items-center gap-4">
-                        <div className="bg-gradient-to-br from-purple-500 to-indigo-600 rounded-full p-4">
-                          <Shield className="h-8 w-8 text-white" />
+                      <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+                        <div className="bg-gradient-to-br from-purple-500 to-indigo-600 rounded-full p-2.5 sm:p-4 shrink-0">
+                          <Shield className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
                         </div>
-                        <div>
-                          <p className="text-xl font-semibold text-gray-900 dark:text-white">
+                        <div className="min-w-0 flex-1">
+                          <p className="text-base sm:text-xl font-semibold text-gray-900 dark:text-white break-all sm:break-normal truncate">
                             {course.instructorEmail}
                           </p>
-                          <p className="text-gray-600 dark:text-gray-400">Expert Instructor</p>
+                          <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Expert Instructor</p>
                         </div>
                       </div>
                     </CardContent>
@@ -409,28 +418,29 @@ const CourseDetailsPage: React.FC = () => {
 
               {/* Course Benefits and Prerequisites */}
               {course.courseOptions && (
-                <div className="grid md:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 w-full min-w-0">
                   {/* Benefits */}
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.2 }}
                     viewport={{ once: true }}
+                    className="w-full min-w-0"
                   >
-                    <Card className="bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 dark:from-emerald-950/50 dark:via-green-950/50 dark:to-teal-950/50 border border-emerald-200/50 dark:border-emerald-800/50 rounded-3xl shadow-xl h-full">
-                      <CardContent className="p-8">
-                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
-                          <Target className="h-6 w-6 mr-3 text-emerald-600" />
+                    <Card className="bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 dark:from-emerald-950/50 dark:via-green-950/50 dark:to-teal-950/50 border border-emerald-200/50 dark:border-emerald-800/50 rounded-2xl sm:rounded-3xl shadow-xl h-full w-full">
+                      <CardContent className="p-4 sm:p-6 md:p-8">
+                        <h2 className="text-lg sm:text-2xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6 flex items-center">
+                          <Target className="h-5 w-5 sm:h-6 sm:w-6 mr-2 sm:mr-3 text-emerald-600 shrink-0" />
                           What You'll Learn
                         </h2>
-                        <ul className="space-y-4">
-                          {course.courseOptions.benefits.split(".").map((item, idx) =>
+                        <ul className="space-y-3 sm:space-y-4">
+                          {course.courseOptions.benefits.split(/[.;\n]+/).map((item, idx) =>
                             item.trim() ? (
-                              <li key={idx} className="flex items-start gap-3">
-                                <div className="bg-emerald-100 dark:bg-emerald-900/30 rounded-full p-1 mt-1">
-                                  <CheckCircle className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                              <li key={idx} className="flex items-start gap-2.5 sm:gap-3 min-w-0">
+                                <div className="bg-emerald-100 dark:bg-emerald-900/30 rounded-full p-1 mt-0.5 shrink-0">
+                                  <CheckCircle className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-emerald-600 dark:text-emerald-400" />
                                 </div>
-                                <span className="text-gray-700 dark:text-gray-300 leading-relaxed">{item.trim()}</span>
+                                <span className="text-gray-700 dark:text-gray-300 text-xs sm:text-sm leading-relaxed break-words min-w-0 flex-1">{item.trim()}</span>
                               </li>
                             ) : null,
                           )}
@@ -445,21 +455,22 @@ const CourseDetailsPage: React.FC = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.3 }}
                     viewport={{ once: true }}
+                    className="w-full min-w-0"
                   >
-                    <Card className="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-blue-950/50 dark:via-indigo-950/50 dark:to-purple-950/50 border border-blue-200/50 dark:border-blue-800/50 rounded-3xl shadow-xl h-full">
-                      <CardContent className="p-8">
-                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
-                          <Zap className="h-6 w-6 mr-3 text-blue-600" />
+                    <Card className="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-blue-950/50 dark:via-indigo-950/50 dark:to-purple-950/50 border border-blue-200/50 dark:border-blue-800/50 rounded-2xl sm:rounded-3xl shadow-xl h-full w-full">
+                      <CardContent className="p-4 sm:p-6 md:p-8">
+                        <h2 className="text-lg sm:text-2xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6 flex items-center">
+                          <Zap className="h-5 w-5 sm:h-6 sm:w-6 mr-2 sm:mr-3 text-blue-600 shrink-0" />
                           Prerequisites
                         </h2>
-                        <ul className="space-y-4">
-                          {course.courseOptions.prerequisites.split(".").map((item, idx) =>
+                        <ul className="space-y-3 sm:space-y-4">
+                          {course.courseOptions.prerequisites.split(/[.;\n]+/).map((item, idx) =>
                             item.trim() ? (
-                              <li key={idx} className="flex items-start gap-3">
-                                <div className="bg-blue-100 dark:bg-blue-900/30 rounded-full p-1 mt-1">
-                                  <CheckCircle className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                              <li key={idx} className="flex items-start gap-2.5 sm:gap-3 min-w-0">
+                                <div className="bg-blue-100 dark:bg-blue-900/30 rounded-full p-1 mt-0.5 shrink-0">
+                                  <CheckCircle className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-blue-600 dark:text-blue-400" />
                                 </div>
-                                <span className="text-gray-700 dark:text-gray-300 leading-relaxed">{item.trim()}</span>
+                                <span className="text-gray-700 dark:text-gray-300 text-xs sm:text-sm leading-relaxed break-words min-w-0 flex-1">{item.trim()}</span>
                               </li>
                             ) : null,
                           )}
@@ -472,35 +483,35 @@ const CourseDetailsPage: React.FC = () => {
             </div>
 
             {/* Right Column - Course Card */}
-            <div className="lg:col-span-1">
+            <div className="lg:col-span-1 min-w-0 w-full">
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6 }}
                 viewport={{ once: true }}
-                className="sticky top-8"
+                className="static lg:sticky lg:top-8 w-full min-w-0"
               >
-                <Card className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-3xl shadow-2xl overflow-hidden">
+                <Card className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden w-full">
                   {/* Course Thumbnail */}
-                  <div className="relative overflow-hidden">
+                  <div className="relative overflow-hidden w-full">
                     <img
                       src={course.thumbnailUrl || "/placeholder.svg?height=300&width=500"}
                       alt={course.title}
-                      className="w-full h-64 object-cover"
+                      className="w-full h-48 sm:h-64 object-cover"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                    <div className="absolute bottom-4 left-4 right-4">
-                      <div className="bg-white/10 backdrop-blur-md rounded-2xl p-3 border border-white/20">
-                        <div className="flex items-center justify-between text-white">
-                          <div className="flex items-center gap-3">
+                    <div className="absolute bottom-2.5 sm:bottom-4 left-2.5 sm:left-4 right-2.5 sm:right-4">
+                      <div className="bg-white/10 backdrop-blur-md rounded-xl sm:rounded-2xl p-2.5 sm:p-3 border border-white/20">
+                        <div className="flex items-center justify-between text-white text-xs sm:text-sm">
+                          <div className="flex items-center gap-1.5 sm:gap-3">
                             <div className="flex items-center gap-1">
-                              <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                              <Star className="h-3.5 w-3.5 sm:h-4 sm:w-4 fill-yellow-400 text-yellow-400 shrink-0" />
                               <span className="font-bold">{rating}</span>
                             </div>
-                            <span className="text-xs opacity-75">({reviewCount} reviews)</span>
+                            <span className="text-[11px] sm:text-xs opacity-75">({reviewCount})</span>
                           </div>
-                          <div className="flex items-center gap-2 text-xs font-medium">
-                            <Users className="h-3 w-3" />
+                          <div className="flex items-center gap-1.5 text-[11px] sm:text-xs font-medium">
+                            <Users className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
                             <span>{studentCount}</span>
                           </div>
                         </div>
@@ -508,23 +519,23 @@ const CourseDetailsPage: React.FC = () => {
                     </div>
                   </div>
 
-                  <CardContent className="p-8">
+                  <CardContent className="p-4 sm:p-6 lg:p-8">
                     {/* Price Section */}
-                    <div className="text-center mb-8">
-                      <p className="text-sm font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-2">
+                    <div className="text-center mb-6 sm:mb-8">
+                      <p className="text-xs sm:text-sm font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-2">
                         Course Price
                       </p>
-                      <div className="flex items-center justify-center gap-2 mb-4">
-                        <span className="text-emerald-500 text-2xl font-semibold">₹</span>
-                        <span className="text-5xl font-extrabold text-gray-900 dark:text-white">{course.price}</span>
+                      <div className="flex items-center justify-center gap-1.5 sm:gap-2 mb-3 sm:mb-4">
+                        <span className="text-emerald-500 text-xl sm:text-2xl font-semibold">₹</span>
+                        <span className="text-3xl sm:text-5xl font-extrabold text-gray-900 dark:text-white">{course.price}</span>
                       </div>
-                      <div className="flex items-center justify-center gap-4 text-sm text-gray-600 dark:text-gray-400">
+                      <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-4 text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                         <div className="flex items-center gap-1">
-                          <Clock className="h-4 w-4" />
+                          <Clock className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
                           <span>Lifetime Access</span>
                         </div>
                         <div className="flex items-center gap-1">
-                          <Award className="h-4 w-4" />
+                          <Award className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
                           <span>Certificate</span>
                         </div>
                       </div>
@@ -539,12 +550,13 @@ const CourseDetailsPage: React.FC = () => {
                           animate={{ opacity: 1, scale: 1 }}
                           exit={{ opacity: 0, scale: 0.95 }}
                           transition={{ duration: 0.2 }}
+                          className="w-full"
                         >
                           <Button
                             onClick={() => navigate(`/course-content/${course.courseId}`)}
-                            className="w-full bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:via-indigo-700 hover:to-purple-700 text-white font-bold py-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                            className="w-full bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:via-indigo-700 hover:to-purple-700 text-white font-bold py-3.5 sm:py-4 rounded-xl sm:rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] cursor-pointer text-sm sm:text-base flex items-center justify-center"
                           >
-                            <Play className="h-5 w-5 mr-2" />
+                            <Play className="h-4 w-4 sm:h-5 sm:w-5 mr-2 shrink-0" />
                             Continue Learning
                           </Button>
                         </motion.div>
@@ -555,46 +567,47 @@ const CourseDetailsPage: React.FC = () => {
                           animate={{ opacity: 1, scale: 1 }}
                           exit={{ opacity: 0, scale: 0.95 }}
                           transition={{ duration: 0.2 }}
+                          className="w-full"
                         >
                           <CheckoutButton
                             userEmail={userEmail}
                             courseId={course.courseId}
                             price={course.price}
-                            className="w-full bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 hover:from-emerald-700 hover:via-green-700 hover:to-teal-700 text-white font-bold py-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                            className="w-full bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 hover:from-emerald-700 hover:via-green-700 hover:to-teal-700 text-white font-bold py-3.5 sm:py-4 rounded-xl sm:rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] cursor-pointer text-sm sm:text-base flex items-center justify-center"
                           />
                         </motion.div>
                       )}
                     </AnimatePresence>
 
                     {/* Course Features */}
-                    <div className="mt-8 pt-8 border-t border-gray-200/50 dark:border-gray-700/50">
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                    <div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-gray-200/50 dark:border-gray-700/50">
+                      <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4">
                         This course includes:
                       </h3>
-                      <div className="space-y-3">
-                        <div className="flex items-center gap-3 text-gray-700 dark:text-gray-300">
-                          <div className="bg-blue-100 dark:bg-blue-900/30 p-2 rounded-lg">
-                            <BookOpen className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                      <div className="space-y-2.5 sm:space-y-3">
+                        <div className="flex items-center gap-2.5 sm:gap-3 text-gray-700 dark:text-gray-300">
+                          <div className="bg-blue-100 dark:bg-blue-900/30 p-1.5 sm:p-2 rounded-lg shrink-0">
+                            <BookOpen className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-blue-600 dark:text-blue-400" />
                           </div>
-                          <span className="text-sm">Comprehensive curriculum</span>
+                          <span className="text-xs sm:text-sm">Comprehensive curriculum</span>
                         </div>
-                        <div className="flex items-center gap-3 text-gray-700 dark:text-gray-300">
-                          <div className="bg-green-100 dark:bg-green-900/30 p-2 rounded-lg">
-                            <Clock className="h-4 w-4 text-green-600 dark:text-green-400" />
+                        <div className="flex items-center gap-2.5 sm:gap-3 text-gray-700 dark:text-gray-300">
+                          <div className="bg-green-100 dark:bg-green-900/30 p-1.5 sm:p-2 rounded-lg shrink-0">
+                            <Clock className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-green-600 dark:text-green-400" />
                           </div>
-                          <span className="text-sm">Lifetime access</span>
+                          <span className="text-xs sm:text-sm">Lifetime access</span>
                         </div>
-                        <div className="flex items-center gap-3 text-gray-700 dark:text-gray-300">
-                          <div className="bg-purple-100 dark:bg-purple-900/30 p-2 rounded-lg">
-                            <Award className="h-4 w-4 text-purple-600 dark:text-purple-400" />
+                        <div className="flex items-center gap-2.5 sm:gap-3 text-gray-700 dark:text-gray-300">
+                          <div className="bg-purple-100 dark:bg-purple-900/30 p-1.5 sm:p-2 rounded-lg shrink-0">
+                            <Award className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-purple-600 dark:text-purple-400" />
                           </div>
-                          <span className="text-sm">Certificate of completion</span>
+                          <span className="text-xs sm:text-sm">Certificate of completion</span>
                         </div>
-                        <div className="flex items-center gap-3 text-gray-700 dark:text-gray-300">
-                          <div className="bg-orange-100 dark:bg-orange-900/30 p-2 rounded-lg">
-                            <Users className="h-4 w-4 text-orange-600 dark:text-orange-400" />
+                        <div className="flex items-center gap-2.5 sm:gap-3 text-gray-700 dark:text-gray-300">
+                          <div className="bg-orange-100 dark:bg-orange-900/30 p-1.5 sm:p-2 rounded-lg shrink-0">
+                            <Users className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-orange-600 dark:text-orange-400" />
                           </div>
-                          <span className="text-sm">Community access</span>
+                          <span className="text-xs sm:text-sm">Community access</span>
                         </div>
                       </div>
                     </div>

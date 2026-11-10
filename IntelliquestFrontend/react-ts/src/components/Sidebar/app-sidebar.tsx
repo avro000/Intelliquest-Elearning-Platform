@@ -48,6 +48,12 @@ const data = {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const location = useLocation()
 
+  const isPathActive = (url: string) => {
+    const current = location.pathname.toLowerCase().replace(/\/$/, "")
+    const target = url.toLowerCase().replace(/\/$/, "")
+    return current === target
+  }
+
   return (
     <Sidebar variant="inset" {...props} collapsible="icon">
       <SidebarHeader>
@@ -73,13 +79,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain
           items={data.navMain.map((item) => ({
             ...item,
-            isActive: location.pathname === item.url,
+            isActive: isPathActive(item.url),
           }))}
         />
         <NavSecondary
           items={data.navSecondary.map((item) => ({
             ...item,
-            isActive: location.pathname === item.url,
+            isActive: isPathActive(item.url),
           }))}
           className="mt-auto"
         />

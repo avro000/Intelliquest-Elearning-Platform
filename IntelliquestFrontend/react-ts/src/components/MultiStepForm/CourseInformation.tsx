@@ -64,9 +64,9 @@ export default function Step1({ form }: Step1Props) {
           <FormMessage />
         </FormItem>
       )} />
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <FormField control={form.control} name="category" render={({ field }) => (
-          <FormItem>
+          <FormItem className="min-w-0">
             <FormLabel>Course Category</FormLabel>
             <FormControl>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
@@ -86,7 +86,7 @@ export default function Step1({ form }: Step1Props) {
           </FormItem>
         )} />
         <FormField control={form.control} name="level" render={({ field }) => (
-          <FormItem>
+          <FormItem className="min-w-0">
             <FormLabel>Course Level</FormLabel>
             <FormControl>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
@@ -104,19 +104,20 @@ export default function Step1({ form }: Step1Props) {
           </FormItem>
         )} />
       </div>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <FormField control={form.control} name="thumbnail" render={({ field }) => (
-          <FormItem>
+          <FormItem className="min-w-0">
             <FormLabel>Upload Thumbnail</FormLabel>
             <FormControl>
               <Input
                 id="picture"
                 type="file"
+                className="cursor-pointer file:cursor-pointer text-xs sm:text-sm"
                 accept="image/png, image/jpeg, image/jpg, image/gif"
                 onChange={(e) => field.onChange(e.target.files?.[0])}
               />
             </FormControl>
-            {field.value && <p className="text-sm">Selected: {field.value.name}</p>}
+            {field.value && <p className="text-xs text-muted-foreground truncate">Selected: {field.value.name}</p>}
             <FormDescription>Please upload a valid image file in JPG, PNG, or GIF format.</FormDescription>
             <FormMessage />
           </FormItem>
@@ -125,7 +126,7 @@ export default function Step1({ form }: Step1Props) {
           control={form.control}
           name="language"
           render={({ field }) => (
-            <FormItem className="flex flex-col">
+            <FormItem className="flex flex-col min-w-0">
               <FormLabel>Course Language</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
@@ -134,18 +135,20 @@ export default function Step1({ form }: Step1Props) {
                       variant="outline"
                       role="combobox"
                       className={cn(
-                        "w-full justify-between",
+                        "w-full justify-between font-normal text-xs sm:text-sm",
                         !field.value && "text-muted-foreground"
                       )}
                     >
-                      {field.value
-                        ? languages.find((language) => language.value === field.value)?.label
-                        : "Select language"}
+                      <span className="truncate">
+                        {field.value
+                          ? languages.find((language) => language.value === field.value)?.label
+                          : "Select language"}
+                      </span>
                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
-                <PopoverContent align="start" className="w-auto p-0">
+                <PopoverContent align="start" className="w-[--radix-popover-trigger-width] min-w-[200px] p-0">
                   <Command>
                     <CommandInput placeholder="Search language..." />
                     <CommandList className="custom-scrollbar">

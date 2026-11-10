@@ -170,65 +170,66 @@ export default function SearchUser() {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset>
-        <header className="flex h-16 items-center justify-between px-4 border-b border-border bg-background dark:bg-black">
-          <div className="flex items-center gap-2">
-            <SidebarTrigger />
-            <Separator orientation="vertical" className="h-4" />
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem className="hidden md:block">Admin</BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <BreadcrumbPage className="capitalize">{currentPage}</BreadcrumbPage>
+      <SidebarInset className="dark:bg-black overflow-x-hidden min-w-0">
+        <header className="sticky top-0 z-40 flex h-14 sm:h-16 shrink-0 items-center justify-between gap-2 px-3 sm:px-4 bg-background/80 dark:bg-black/80 backdrop-blur-md rounded-t-xl min-w-0">
+          <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
+            <SidebarTrigger className="-ml-1" />
+            <Separator orientation="vertical" className="mr-1 sm:mr-2 h-4" />
+            <Breadcrumb className="min-w-0">
+              <BreadcrumbList className="flex-nowrap">
+                <BreadcrumbItem className="hidden sm:block">Admin</BreadcrumbItem>
+                <BreadcrumbSeparator className="hidden sm:block" />
+                <BreadcrumbItem className="min-w-0">
+                  <BreadcrumbPage className="capitalize truncate max-w-[160px] sm:max-w-none text-xs sm:text-sm font-semibold">{currentPage}</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
           </div>
-          <ModeToggle />
+          <div className="px-1 sm:px-4 shrink-0">
+            <ModeToggle />
+          </div>
         </header>
 
-        <div className="min-h-screen bg-background dark:bg-black">
-          <div className="flex flex-col gap-6 p-6">
+        <div className="flex flex-col gap-4 sm:gap-6 p-3 sm:p-6 pb-8 sm:pb-12 pt-0 w-full max-w-full min-w-0 overflow-x-hidden">
             {/* Header Section */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 rounded-3xl p-8 text-white shadow-2xl"
+              className="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 rounded-2xl sm:rounded-3xl p-5 sm:p-8 text-white shadow-2xl"
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <h1 className="text-4xl font-bold mb-2 flex items-center">
-                    <Users className="h-10 w-10 mr-3" />
+                  <h1 className="text-2xl sm:text-4xl font-bold mb-1.5 sm:mb-2 flex items-center">
+                    <Users className="h-7 w-7 sm:h-10 sm:w-10 mr-2 sm:mr-3 shrink-0" />
                     User Management
                   </h1>
-                  <p className="text-emerald-100 text-lg">Search, manage, and monitor all platform users</p>
-                  <div className="flex items-center gap-6 mt-4">
+                  <p className="text-emerald-100 text-sm sm:text-lg">Search, manage, and monitor all platform users</p>
+                  <div className="flex flex-wrap items-center gap-3 sm:gap-6 mt-3 sm:mt-4">
                     <div className="flex items-center gap-2">
-                      <UserCheck className="h-5 w-5" />
-                      <span className="text-sm flex items-center gap-1.5">
+                      <UserCheck className="h-4 w-4 sm:h-5 sm:w-5 shrink-0" />
+                      <span className="text-xs sm:text-sm flex items-center gap-1.5">
                         {loading ? <Skeleton className="h-4 w-12 bg-white/20 rounded inline-block" /> : activeUsers} Active Users
                       </span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <UserX className="h-5 w-5" />
-                      <span className="text-sm flex items-center gap-1.5">
+                      <UserX className="h-4 w-4 sm:h-5 sm:w-5 shrink-0" />
+                      <span className="text-xs sm:text-sm flex items-center gap-1.5">
                         {loading ? <Skeleton className="h-4 w-12 bg-white/20 rounded inline-block" /> : inactiveUsers} Inactive Users
                       </span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Hash className="h-5 w-5" />
-                      <span className="text-sm flex items-center gap-1.5">
+                      <Hash className="h-4 w-4 sm:h-5 sm:w-5 shrink-0" />
+                      <span className="text-xs sm:text-sm flex items-center gap-1.5">
                         {loading ? <Skeleton className="h-4 w-12 bg-white/20 rounded inline-block" /> : allUsers.length} Total Users
                       </span>
                     </div>
                   </div>
                 </div>
                 <div className="hidden lg:block">
-                  <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
-                    <TrendingUp className="h-12 w-12 mb-2" />
-                    <p className="text-sm text-emerald-100">User Growth</p>
+                  <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center">
+                    <TrendingUp className="h-10 w-10 sm:h-12 sm:w-12 mx-auto mb-2 text-emerald-200" />
+                    <p className="text-sm font-medium text-emerald-100">User Growth</p>
                   </div>
                 </div>
               </div>
@@ -239,24 +240,24 @@ export default function SearchUser() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-xl border border-gray-100 dark:border-gray-700"
+              className="bg-white dark:bg-gray-800 rounded-2xl p-3.5 sm:p-5 shadow-xl border border-gray-100 dark:border-gray-700"
             >
-              <div className="flex flex-col lg:flex-row gap-4">
-                <div className="relative flex-1">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                <div className="relative flex-1 min-w-0">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />
                   <Input
                     type="text"
                     placeholder="Search by ID, name, or email..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10 h-12 text-lg border-gray-200 dark:border-gray-600 focus:border-emerald-500 dark:focus:border-emerald-400 rounded-xl"
+                    className="pl-9 sm:pl-10 h-11 sm:h-12 text-sm sm:text-base border-gray-200 dark:border-gray-600 focus:border-emerald-500 dark:focus:border-emerald-400 rounded-xl"
                   />
                 </div>
-                <div className="flex gap-2">
+                <div className="flex gap-2 shrink-0">
                   <Button
                     variant="outline"
                     onClick={handleClear}
-                    className="h-12 px-6 rounded-xl border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700"
+                    className="h-11 sm:h-12 px-4 sm:px-6 rounded-xl border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 text-xs sm:text-sm flex-1 sm:flex-none justify-center"
                   >
                     Clear
                   </Button>
@@ -264,9 +265,9 @@ export default function SearchUser() {
                     <DropdownMenuTrigger asChild>
                       <Button
                         variant="outline"
-                        className="h-12 px-6 rounded-xl border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700"
+                        className="h-11 sm:h-12 px-4 sm:px-6 rounded-xl border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 text-xs sm:text-sm flex-1 sm:flex-none justify-center"
                       >
-                        <Filter className="h-5 w-5 mr-2" />
+                        <Filter className="h-4 w-4 sm:h-5 sm:w-5 mr-1.5 sm:mr-2" />
                         Sort By
                       </Button>
                     </DropdownMenuTrigger>
@@ -497,7 +498,6 @@ export default function SearchUser() {
               </div>
             </motion.div>
           </div>
-        </div>
       </SidebarInset>
 
       <ConfirmModal

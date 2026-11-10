@@ -38,6 +38,15 @@ const App = () => {
   const { userRole, loadingUser } = useAuth();
   const hasToken = Boolean(localStorage.getItem("token"));
 
+  const getDashboardPath = () => {
+    if (!userRole) return "/login";
+    const roleLower = userRole.toLowerCase();
+    if (roleLower === "admin") return "/AdminDashboard";
+    if (roleLower === "instructor") return "/InstructorDashboard";
+    if (roleLower === "user") return "/UserDashboard";
+    return `/${userRole}Dashboard`;
+  };
+
   return (
     <>
       <Toaster />
@@ -50,7 +59,7 @@ const App = () => {
               loadingUser && hasToken ? null : !userRole ? (
                 <LandingPage />
               ) : (
-                <Navigate to={`/${userRole}Dashboard`} replace />
+                <Navigate to={getDashboardPath()} replace />
               )
             }
           />
@@ -60,7 +69,7 @@ const App = () => {
               loadingUser && hasToken ? null : !userRole ? (
                 <LoginPage />
               ) : (
-                <Navigate to={`/${userRole}Dashboard`} replace />
+                <Navigate to={getDashboardPath()} replace />
               )
             }
           />
@@ -70,7 +79,7 @@ const App = () => {
               loadingUser && hasToken ? null : !userRole ? (
                 <SignupPage />
               ) : (
-                <Navigate to={`/${userRole}Dashboard`} replace />
+                <Navigate to={getDashboardPath()} replace />
               )
             }
           />
@@ -118,7 +127,7 @@ const App = () => {
             path="*"
             element={
               userRole
-                ? <Navigate to={`/${userRole}Dashboard`} replace />
+                ? <Navigate to={getDashboardPath()} replace />
                 : <Navigate to="/login" replace />
             }
           />

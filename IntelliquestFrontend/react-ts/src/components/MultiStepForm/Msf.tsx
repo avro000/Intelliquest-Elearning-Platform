@@ -205,12 +205,12 @@ export default function MultiStepCourseForm() {
   };
 
   return (
-    <div className="w-full h-full p-5">
-      <Card className="p-6 w-full h-full relative overflow-hidden justify-between">
-        <Progress value={(step / totalSteps) * 100} className="absolute top-0 left-0 w-full h-2" />
-        <CardContent className="mt-4">
+    <div className="w-full flex-1 p-3 sm:p-5 md:p-6 pb-16 sm:pb-8 flex flex-col min-h-0">
+      <Card className="w-full min-h-[calc(100vh-8rem)] relative flex flex-col justify-between py-0 px-0 rounded-xl sm:rounded-2xl border shadow-sm overflow-hidden">
+        <Progress value={(step / totalSteps) * 100} className="w-full h-2 rounded-none" />
+        <CardContent className="p-4 sm:p-6 md:p-8 flex-1">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 sm:space-y-6">
               {step === 1 && <Step1 form={form} />}
               {step === 2 && <Step2 form={form} />}
               {step === 3 && <Step3 form={form} />}
@@ -225,11 +225,12 @@ export default function MultiStepCourseForm() {
             </form>
           </Form>
         </CardContent>
-        <div className="flex justify-between px-6 pb-6">
-          <Button onClick={prevStep} disabled={step === 1} variant="outline">
+        <div className="flex items-center justify-between px-4 sm:px-6 md:px-8 py-4 sm:py-5 border-t bg-muted/20">
+          <Button onClick={prevStep} disabled={step === 1} variant="outline" className="px-5">
             Back
           </Button>
           <Button
+            className="px-6 font-semibold"
             onClick={async () => {
               if (step === totalSteps) {
                 const isFinalValid = await form.trigger();
