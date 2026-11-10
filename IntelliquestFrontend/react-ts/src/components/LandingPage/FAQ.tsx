@@ -5,7 +5,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-
 interface FAQProps {
   question: string;
   answer: string;
@@ -40,14 +39,13 @@ const FAQList: FAQProps[] = [
   },
 ];
 
-
 export const FAQ = () => {
   return (
     <section
       id="faq"
-      className="container py-24 sm:py-32"
+      className="container py-8 sm:py-12 md:py-20 px-4 sm:px-6"
     >
-      <h2 className="text-3xl md:text-4xl font-bold mb-4">
+      <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
         Frequently Asked{" "}
         <span className="bg-gradient-to-b from-[oklch(0.488_0.243_264.376)]/60 to-[oklch(0.488_0.243_264.376)] text-transparent bg-clip-text">
           Questions
@@ -63,16 +61,16 @@ export const FAQ = () => {
             key={value}
             value={value}
           >
-            <AccordionTrigger className="text-left cursor-pointer">
+            <AccordionTrigger className="text-left cursor-pointer text-base sm:text-lg">
               {question}
             </AccordionTrigger>
 
-            <AccordionContent>{answer}</AccordionContent>
+            <AccordionContent className="text-sm sm:text-base text-muted-foreground">{answer}</AccordionContent>
           </AccordionItem>
         ))}
       </Accordion>
 
-      <h3 className="font-medium mt-4">
+      <h3 className="font-medium mt-6 text-sm sm:text-base">
         Still have questions?{" "}
         <a
           rel="noreferrer noopener"

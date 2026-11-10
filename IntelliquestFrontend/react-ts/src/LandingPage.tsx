@@ -15,18 +15,17 @@ import { FAQ } from './components/LandingPage/FAQ';
 import { Footer } from './components/LandingPage/Footer';
 import { ScrollToTop } from './components/LandingPage/ScrollToTop';
 
-
 const LandingPage: React.FC = () => {
   return (
     <div className='overflow-hidden'>
       {/* Navbar */}
       <Navbar />
 
-      {/* Hero Section */}
-      <Hero />
-
-      {/* Sponsors Section */}
-      <Sponsors />
+      {/* First screen wrapper: evenly spread on mobile, normal flow on desktop */}
+      <div className="min-h-screen min-h-[100dvh] flex flex-col justify-evenly pt-14 pb-4 lg:min-h-0 lg:block lg:pb-0">
+        <Hero />
+        <Sponsors />
+      </div>
 
       {/* About Section */}
       <About />

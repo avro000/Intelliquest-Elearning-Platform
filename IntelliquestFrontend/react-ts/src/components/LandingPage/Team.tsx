@@ -69,7 +69,6 @@ const teamList: TeamProps[] = [
         name: "Linkedin",
         url: "https://www.linkedin.com/in/leopoldo-miranda/",
       },
-
       {
         name: "Instagram",
         url: "https://www.instagram.com/",
@@ -110,20 +109,20 @@ export const Team = () => {
   return (
     <section
       id="team"
-      className="container py-24 sm:py-32"
+      className="container py-8 sm:py-12 md:py-20"
     >
-      <h2 className="text-3xl md:text-4xl font-bold">
+      <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">
         <span className="bg-gradient-to-b from-[oklch(0.488_0.243_264.376)]/60 to-[oklch(0.488_0.243_264.376)] text-transparent bg-clip-text">
         Meet the Experts Behind{" "}
         </span>
         IntelliQuest
       </h2>
 
-      <p className="mt-4 mb-10 text-xl text-muted-foreground">
-      Committed to delivering exceptional learning experiences and shaping your educational journey.
+      <p className="mt-2 sm:mt-4 mb-8 sm:mb-10 text-base sm:text-lg md:text-xl text-muted-foreground">
+        Committed to delivering exceptional learning experiences and shaping your educational journey.
       </p>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 gap-y-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 gap-y-12">
         {teamList.map(
           ({ imageUrl, name, position, socialNetworks }: TeamProps) => (
             <Card
@@ -136,13 +135,13 @@ export const Team = () => {
                   alt={`${name} ${position}`}
                   className="absolute -top-12 rounded-full w-24 h-24 aspect-square object-cover"
                 />
-                <CardTitle className="text-center">{name}</CardTitle>
+                <CardTitle className="text-center text-lg sm:text-xl">{name}</CardTitle>
                 <CardDescription className="text-[oklch(0.488_0.243_264.376)]">
                   {position}
                 </CardDescription>
               </CardHeader>
 
-              <CardContent className="text-center pb-2">
+              <CardContent className="text-center pb-2 text-sm sm:text-base text-muted-foreground">
                 <p>Passionate about creating user-centered products that drive success and deliver impactful learning experiences.</p>
               </CardContent>
 

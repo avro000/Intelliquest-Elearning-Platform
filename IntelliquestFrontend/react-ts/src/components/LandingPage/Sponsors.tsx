@@ -13,21 +13,21 @@ const sponsors: SponsorProps[] = [
 
 export const Sponsors = () => {
   return (
-    <section id="sponsors" className="container pt-24 sm:py-32">
-      <h2 className="text-center text-md lg:text-xl font-bold mb-8">
+    <section id="sponsors" className="container lg:pt-8 lg:pb-16">
+      <h2 className="text-center text-sm sm:text-base lg:text-xl font-semibold mb-4 lg:mb-8">
         We collaborate{" "}
-        <span className="bg-gradient-to-b from-[oklch(0.488_0.243_264.376)]/60 to-[oklch(0.488_0.243_264.376)] text-transparent bg-clip-text">
+        <span className="bg-gradient-to-b from-[oklch(0.488_0.243_264.376)]/60 to-[oklch(0.488_0.243_264.376)] text-transparent bg-clip-text font-bold">
           with 350+ leading universities and companies
         </span>
       </h2>
 
-      <div className="flex flex-wrap justify-center items-center gap-4 md:gap-8">
+      <div className="flex flex-wrap justify-center items-center gap-5 sm:gap-7 md:gap-8 px-2">
         {sponsors.map(({ image }, index) => (
           <img
             key={index}
             src={image}
             alt={`Sponsor ${index + 1}`}
-            className="max-w-[140px] max-h-[40px] object-contain"
+            className="max-w-[100px] sm:max-w-[120px] md:max-w-[140px] max-h-[30px] sm:max-h-[34px] md:max-h-[40px] object-contain opacity-90 hover:opacity-100 transition-opacity"
           />
         ))}
       </div>

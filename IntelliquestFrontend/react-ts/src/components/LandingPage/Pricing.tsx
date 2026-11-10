@@ -30,14 +30,14 @@ const pricingList: PricingProps[] = [
     popular: 0,
     price: 0,
     description:
-      "Lorem ipsum dolor sit, amet ipsum consectetur adipisicing elit.",
+      "Essential access to beginner courses and community discussions.",
     buttonText: "Get Started",
     benefitList: [
-      "1 Team member",
-      "2 GB Storage",
-      "Upto 4 pages",
-      "Community support",
-      "lorem ipsum dolor",
+      "Access to free courses",
+      "Community forum access",
+      "Basic quiz assessments",
+      "Course progress tracking",
+      "Standard mobile support",
     ],
   },
   {
@@ -45,29 +45,29 @@ const pricingList: PricingProps[] = [
     popular: 1,
     price: 5,
     description:
-      "Lorem ipsum dolor sit, amet ipsum consectetur adipisicing elit.",
+      "Unlimited access to all courses, quizzes, and certificates.",
     buttonText: "Start Free Trial",
     benefitList: [
-      "4 Team member",
-      "4 GB Storage",
-      "Upto 6 pages",
-      "Priority support",
-      "lorem ipsum dolor",
+      "All Free features included",
+      "Unlimited premium courses",
+      "Official certificates",
+      "AI quiz insights",
+      "Priority instructor support",
     ],
   },
   {
     title: "Enterprise",
     popular: 0,
-    price: 40,
+    price: 15,
     description:
-      "Lorem ipsum dolor sit, amet ipsum consectetur adipisicing elit.",
-    buttonText: "Contact US",
+      "Team-level features, analytics, and bulk seat management.",
+    buttonText: "Contact Us",
     benefitList: [
-      "10 Team member",
-      "8 GB Storage",
-      "Upto 10 pages",
-      "Priority support",
-      "lorem ipsum dolor",
+      "All Premium features included",
+      "Dedicated account manager",
+      "Custom learning paths",
+      "Team analytics dashboard",
+      "24/7 dedicated support",
     ],
   },
 ];
@@ -76,12 +76,11 @@ export const Pricing = () => {
   return (
     <section
       id="pricing"
-      className="container py-24 sm:py-32 relative"
+      className="container py-8 sm:py-12 md:py-20 relative"
     >
-
       <div className="shadow-price"></div>
       <div className="shadow-price2"></div>
-      <h2 className="text-3xl md:text-4xl font-bold text-center">
+      <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center">
         Get
         <span className="bg-gradient-to-b from-[oklch(0.488_0.243_264.376)]/60 to-[oklch(0.488_0.243_264.376)] text-transparent bg-clip-text">
           {" "}
@@ -89,51 +88,52 @@ export const Pricing = () => {
         </span>
         Access
       </h2>
-      <h3 className="text-xl text-center text-muted-foreground pt-4 pb-8">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias
-        reiciendis.
+      <h3 className="text-base sm:text-lg md:text-xl text-center text-muted-foreground pt-2 sm:pt-4 pb-6 sm:pb-8">
+        Choose the plan that fits your learning ambitions and goals.
       </h3>
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
         {pricingList.map((pricing: PricingProps) => (
           <Card
             key={pricing.title}
-            className="bg-white/10 backdrop-blur-md border border-primary/20"
+            className="bg-white/10 backdrop-blur-md border border-primary/20 flex flex-col justify-between"
           >
-            <CardHeader>
-              <CardTitle className="flex item-center justify-between text-2xl">
-                {pricing.title}
-                {pricing.popular === PopularPlanType.YES ? (
-                  <Badge
-                    variant="default"
-                    className="text-sm text-background"
-                  >
-                    Most popular
-                  </Badge>
-                ) : null}
-              </CardTitle>
-              <div>
-                <span className="text-3xl font-bold">${pricing.price}</span>
-                <span className="text-muted-foreground"> /month</span>
-              </div>
+            <div>
+              <CardHeader>
+                <CardTitle className="flex items-center justify-between text-xl sm:text-2xl">
+                  {pricing.title}
+                  {pricing.popular === PopularPlanType.YES ? (
+                    <Badge
+                      variant="default"
+                      className="text-xs sm:text-sm text-background"
+                    >
+                      Most popular
+                    </Badge>
+                  ) : null}
+                </CardTitle>
+                <div className="pt-2">
+                  <span className="text-3xl font-bold">${pricing.price}</span>
+                  <span className="text-muted-foreground"> /month</span>
+                </div>
 
-              <CardDescription>{pricing.description}</CardDescription>
-            </CardHeader>
+                <CardDescription className="pt-2 text-sm sm:text-base">{pricing.description}</CardDescription>
+              </CardHeader>
 
-            <CardContent>
-              <Button className="w-full bg-[oklch(0.488_0.243_264.376)] hover:bg-[oklch(0.488_0.243_264.376)]/90 transition duration-300 ease-in-out cursor-pointer text-primary">{pricing.buttonText}</Button>
-            </CardContent>
+              <CardContent>
+                <Button className="w-full bg-[oklch(0.488_0.243_264.376)] hover:bg-[oklch(0.488_0.243_264.376)]/90 transition duration-300 ease-in-out cursor-pointer text-primary">{pricing.buttonText}</Button>
+              </CardContent>
 
-            <hr className="w-4/5 m-auto mb-4" />
+              <hr className="w-4/5 m-auto mb-4 border-border" />
+            </div>
 
             <CardFooter className="flex">
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {pricing.benefitList.map((benefit: string) => (
                   <span
                     key={benefit}
-                    className="flex"
+                    className="flex items-center text-sm sm:text-base"
                   >
-                    <Check className="text-[oklch(0.488_0.243_264.376)]" />{" "}
-                    <h3 className="ml-2">{benefit}</h3>
+                    <Check className="text-[oklch(0.488_0.243_264.376)] size-5 shrink-0" />{" "}
+                    <span className="ml-2">{benefit}</span>
                   </span>
                 ))}
               </div>

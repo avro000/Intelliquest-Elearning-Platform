@@ -50,21 +50,21 @@ export const Features = () => {
   return (
     <section
       id="features"
-      className="container py-24 sm:py-32 space-y-8"
+      className="container py-8 sm:py-12 md:py-20 space-y-6 sm:space-y-8"
     >
-      <h2 className="text-3xl lg:text-4xl font-bold md:text-center">
+      <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold md:text-center">
         Many{" "}
         <span className="bg-gradient-to-b from-[oklch(0.488_0.243_264.376)]/60 to-[oklch(0.488_0.243_264.376)] text-transparent bg-clip-text">
           Great Features
         </span>
       </h2>
 
-      <div className="flex flex-wrap md:justify-center gap-4">
+      <div className="flex flex-wrap md:justify-center gap-2 sm:gap-3">
         {featureList.map((feature: string) => (
           <div key={feature}>
             <Badge
               variant="secondary"
-              className="text-sm"
+              className="text-xs sm:text-sm"
             >
               {feature}
             </Badge>
@@ -72,20 +72,21 @@ export const Features = () => {
         ))}
       </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
         {features.map(({ title, description, image }: FeatureProps) => (
-          <Card key={title}>
-            <CardHeader>
-              <CardTitle>{title}</CardTitle>
-            </CardHeader>
+          <Card key={title} className="flex flex-col justify-between">
+            <div>
+              <CardHeader>
+                <CardTitle className="text-xl sm:text-2xl">{title}</CardTitle>
+              </CardHeader>
+              <CardContent className="text-sm sm:text-base text-muted-foreground">{description}</CardContent>
+            </div>
 
-            <CardContent>{description}</CardContent>
-
-            <CardFooter>
+            <CardFooter className="pt-4">
               <img
                 src={image}
                 alt={title}
-                className="w-[200px] lg:w-[300px] mx-auto"
+                className="w-[180px] sm:w-[220px] lg:w-[260px] mx-auto object-contain"
               />
             </CardFooter>
           </Card>
