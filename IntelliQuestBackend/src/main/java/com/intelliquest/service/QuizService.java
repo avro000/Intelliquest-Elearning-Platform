@@ -12,7 +12,7 @@ import com.intelliquest.repository.QuizRepository;
 import com.intelliquest.repository.QuizResultRepository;
 import com.intelliquest.repository.UserRepository;
 
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -91,9 +91,9 @@ public class QuizService {
                 .orElseThrow(() -> new RuntimeException("Quiz not found"));
     }
     
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Quiz> getAllQuizzes() {
-        return quizRepository.findAll();
+        return quizRepository.findAllWithInstructor();
     }
     
     @Transactional

@@ -32,5 +32,6 @@ public class Question {
     private Quiz quiz;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Option> options;
+    @Builder.Default
+    private List<Option> options = new java.util.ArrayList<>();
 }

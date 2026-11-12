@@ -22,4 +22,4 @@ COPY --from=build /app/target/*.jar app.jar
 EXPOSE 9092
 ENV PORT=9092
 
-ENTRYPOINT ["sh", "-c", "java -XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Dserver.port=${PORT:-9092} -jar app.jar"]
+ENTRYPOINT ["sh", "-c", "java -Xms128m -Xmx256m -XX:MaxMetaspaceSize=128m -Xss512k -XX:+UseSerialGC -Dserver.port=${PORT:-9092} -jar app.jar"]

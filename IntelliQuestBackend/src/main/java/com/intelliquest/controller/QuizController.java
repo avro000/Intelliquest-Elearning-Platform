@@ -92,8 +92,8 @@ public class QuizController {
     public ResponseEntity<?> getAllQuizzes() {
         try {
             List<Quiz> quizzes = quizService.getAllQuizzes();
-            if (quizzes.isEmpty()) {
-                return ResponseEntity.status(404).body("No quizzes available.");
+            if (quizzes == null || quizzes.isEmpty()) {
+                return ResponseEntity.ok(List.of());
             }
 
             List<QuizSubmissionDTO> dtoList = quizzes.stream()
@@ -102,6 +102,7 @@ public class QuizController {
 
             return ResponseEntity.ok(dtoList);
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(500).body("Failed to retrieve quizzes: " + e.getMessage());
         }
     }
@@ -135,8 +136,8 @@ public class QuizController {
 
             List<Quiz> quizzes = quizService.getQuizzesByInstructor(user);
 
-            if (quizzes.isEmpty()) {
-                return ResponseEntity.status(404).body("You have not created any quizzes yet.");
+            if (quizzes == null || quizzes.isEmpty()) {
+                return ResponseEntity.ok(List.of());
             }
 
             List<QuizSubmissionDTO> dtoList = quizzes.stream()
@@ -392,31 +393,61 @@ public class QuizController {
     }
 
     private QuizSubmissionDTO mapToDTO(Quiz quiz, boolean includeAnswers) {
+        Long instructorId = null;
+        String instructorName = null;
+        String instructorEmail = null;
+        try {
+            if (quiz.getInstructor() != null) {
+                instructorId = quiz.getInstructor().getId();
+                instructorName = quiz.getInstructor().getUsername();
+                instructorEmail = quiz.getInstructor().getEmail();
+            }
+        } catch (Exception ignored) {}
+
+        List<QuizSubmissionDTO.Question> questionsDto = java.util.Collections.emptyList();
+        try {
+            if (quiz.getQuestions() != null) {
+                questionsDto = quiz.getQuestions().stream().map(q -> {
+                    List<QuizSubmissionDTO.Option> optionsDto = java.util.Collections.emptyList();
+                    try {
+                        if (q.getOptions() != null) {
+                            optionsDto = q.getOptions().stream().map(o ->
+                                    QuizSubmissionDTO.Option.builder()
+                                            .id(o.getId())
+                                            .text(o.getText())
+                                            .build()
+                            ).toList();
+                        }
+                    } catch (Exception ignored) {}
+
+                    return QuizSubmissionDTO.Question.builder()
+                            .id(q.getId())
+                            .question(q.getQuestion())
+                            .correctOptionId(includeAnswers ? q.getCorrectOptionId() : null)
+                            .marksForCorrect(q.getMarksForCorrect())
+                            .marksForIncorrect(q.getMarksForIncorrect())
+                            .options(optionsDto)
+                            .build();
+                }).toList();
+            }
+        } catch (Exception ignored) {}
+
+        String thumbUrl = quiz.getThumbnailUrl();
+        if (thumbUrl == null || thumbUrl.isBlank()) {
+            thumbUrl = "/auth/quiz/" + quiz.getId() + "/thumbnail";
+        }
+
         return QuizSubmissionDTO.builder()
         		.id(quiz.getId())
                 .title(quiz.getTitle())
                 .playingTime(quiz.getPlayingTime())
                 .level(quiz.getLevel())                  
                 .category(quiz.getCategory())
-                .thumbnailUrl(quiz.getThumbnailUrl() != null && !quiz.getThumbnailUrl().isBlank() ? quiz.getThumbnailUrl() : ("http://localhost:9092/auth/quiz/" + quiz.getId() + "/thumbnail"))
-                .instructorId(quiz.getInstructor() != null ? quiz.getInstructor().getId() : null)
-                .instructorName(quiz.getInstructor() != null ? quiz.getInstructor().getUsername() : null)
-                .instructorEmail(quiz.getInstructor() != null ? quiz.getInstructor().getEmail() : null)
-                .questions(quiz.getQuestions().stream().map(q ->
-                        QuizSubmissionDTO.Question.builder()
-                                .id(q.getId())
-                                .question(q.getQuestion())
-                                .correctOptionId(includeAnswers ? q.getCorrectOptionId() : null)
-                                .marksForCorrect(q.getMarksForCorrect())         
-                                .marksForIncorrect(q.getMarksForIncorrect()) 
-                                .options(q.getOptions().stream().map(o ->
-                                        QuizSubmissionDTO.Option.builder()
-                                                .id(o.getId())
-                                                .text(o.getText())
-                                                .build()
-                                ).toList())
-                                .build()
-                ).toList())
+                .thumbnailUrl(thumbUrl)
+                .instructorId(instructorId)
+                .instructorName(instructorName)
+                .instructorEmail(instructorEmail)
+                .questions(questionsDto)
                 .build();
     }
 }

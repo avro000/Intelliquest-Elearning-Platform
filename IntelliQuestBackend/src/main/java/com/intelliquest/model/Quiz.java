@@ -41,10 +41,12 @@ public class Quiz {
     private String thumbnailUrl;
 
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Question> questions;
+    @Builder.Default
+    private List<Question> questions = new java.util.ArrayList<>();
     
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<QuizResult> results;
+    @Builder.Default
+    private List<QuizResult> results = new java.util.ArrayList<>();
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "instructor_id")

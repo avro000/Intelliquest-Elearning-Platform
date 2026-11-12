@@ -6,6 +6,7 @@ import { Trophy, Zap, Star, Clock, Users, AlertCircleIcon } from "lucide-react"
 import UserNavbar from "@/UserDashboard/UserNavbar"
 import { jwtDecode } from "jwt-decode"
 import { Skeleton } from "@/components/ui/skeleton"
+import { API_BASE_URL } from "@/api/config"
 
 type Quiz = {
   id: number
@@ -46,30 +47,36 @@ export default function PlayQuiz() {
   const [participantCounts, setParticipantCounts] = useState<Record<number, number>>({});
 
   useEffect(() => {
-    fetch("http://localhost:9092/auth/get-all-quizzes")
+    fetch(`${API_BASE_URL}/auth/get-all-quizzes`)
       .then(res => {
         if (!res.ok) throw new Error("Failed to fetch quizzes");
         return res.json();
       })
       .then(data => {
-        setQuizzes(data);
+        const quizList = Array.isArray(data) ? data : [];
+        setQuizzes(quizList);
 
-        const fetchCounts = data.map((quiz: Quiz) =>
-          fetch(`http://localhost:9092/auth/quiz/${quiz.id}/participants`)
-            .then(res => res.json())
-            .then(result => ({ quizId: quiz.id, count: result.totalParticipants || 0 }))
-            .catch(() => ({ quizId: quiz.id, count: 0 }))
-        );
+        if (quizList.length > 0) {
+          const fetchCounts = quizList.map((quiz: Quiz) =>
+            fetch(`${API_BASE_URL}/auth/quiz/${quiz.id}/participants`)
+              .then(res => res.json())
+              .then(result => ({ quizId: quiz.id, count: result.totalParticipants || 0 }))
+              .catch(() => ({ quizId: quiz.id, count: 0 }))
+          );
 
-        Promise.all(fetchCounts).then(results => {
-          const countsMap: Record<number, number> = {};
-          results.forEach(({ quizId, count }) => {
-            countsMap[quizId] = count;
+          Promise.all(fetchCounts).then(results => {
+            const countsMap: Record<number, number> = {};
+            results.forEach(({ quizId, count }) => {
+              countsMap[quizId] = count;
+            });
+            setParticipantCounts(countsMap);
           });
-          setParticipantCounts(countsMap);
-        });
+        }
       })
-      .catch(err => console.error("Error fetching quizzes:", err))
+      .catch(err => {
+        console.error("Error fetching quizzes:", err);
+        setQuizzes([]);
+      })
       .finally(() => setLoading(false));
   }, []);
 
