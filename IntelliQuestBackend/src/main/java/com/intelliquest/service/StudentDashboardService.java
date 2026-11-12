@@ -42,6 +42,7 @@ public class StudentDashboardService {
     }
 
     private CourseResponseDTO convertToCourseResponseDTO(Course course) {
+        if (course == null) return null;
         CourseResponseDTO dto = new CourseResponseDTO();
         dto.setCourseId(course.getCourseId());
         dto.setTitle(course.getTitle());
@@ -52,55 +53,74 @@ public class StudentDashboardService {
         dto.setLanguage(course.getLanguage());
         dto.setPublished(course.isPublished());
 
-        if (course.getInstructor() != null) {
-            dto.setInstructorEmail(course.getInstructor().getEmail());
+        try {
+            if (course.getInstructor() != null) {
+                dto.setInstructorEmail(course.getInstructor().getEmail());
+            }
+        } catch (Exception ignored) {}
+
+        String thumb = course.getThumbnailUrl();
+        if (thumb == null || thumb.isBlank()) {
+            thumb = "/auth/courses/" + course.getCourseId() + "/thumbnail";
         }
+        dto.setThumbnailUrl(thumb);
 
-        dto.setThumbnailUrl(course.getThumbnailUrl() != null ? course.getThumbnailUrl() 
-                : "http://localhost:9092/auth/courses/" + course.getCourseId() + "/thumbnail");
-
-        dto.setTopics(course.getTopics().stream()
-                .map(topic -> {
+        List<CourseResponseDTO.TopicDTO> topicDTOs = new java.util.ArrayList<>();
+        try {
+            if (course.getTopics() != null) {
+                for (Topic topic : course.getTopics()) {
                     CourseResponseDTO.TopicDTO topicDTO = new CourseResponseDTO.TopicDTO();
                     topicDTO.setName(topic.getName());
-                    topicDTO.setSubtopics(topic.getSubtopics().stream()
-                            .map(subtopic -> {
-                                CourseResponseDTO.SubtopicDTO subtopicDTO = new CourseResponseDTO.SubtopicDTO();
-                                subtopicDTO.setName(subtopic.getName());
-                                subtopicDTO.setVideos(subtopic.getVideos().stream()
-                                        .map(video -> {
-                                            CourseResponseDTO.VideoDTO videoDTO = new CourseResponseDTO.VideoDTO();
-                                            videoDTO.setTitle(video.getTitle());
-                                            videoDTO.setDescription(video.getDescription());
-                                            videoDTO.setUrl(video.getUrl());
-                                            return videoDTO;
-                                        }).collect(Collectors.toList()));
-                                return subtopicDTO;
-                            }).collect(Collectors.toList()));
-                    return topicDTO;
-                }).collect(Collectors.toList()));
+                    List<CourseResponseDTO.SubtopicDTO> subtopicDTOs = new java.util.ArrayList<>();
+                    if (topic.getSubtopics() != null) {
+                        for (Subtopic subtopic : topic.getSubtopics()) {
+                            CourseResponseDTO.SubtopicDTO subtopicDTO = new CourseResponseDTO.SubtopicDTO();
+                            subtopicDTO.setName(subtopic.getName());
+                            List<CourseResponseDTO.VideoDTO> videoDTOs = new java.util.ArrayList<>();
+                            if (subtopic.getVideos() != null) {
+                                for (Video video : subtopic.getVideos()) {
+                                    CourseResponseDTO.VideoDTO videoDTO = new CourseResponseDTO.VideoDTO();
+                                    videoDTO.setTitle(video.getTitle());
+                                    videoDTO.setDescription(video.getDescription());
+                                    videoDTO.setUrl(video.getUrl());
+                                    videoDTOs.add(videoDTO);
+                                }
+                            }
+                            subtopicDTO.setVideos(videoDTOs);
+                            subtopicDTOs.add(subtopicDTO);
+                        }
+                    }
+                    topicDTO.setSubtopics(subtopicDTOs);
+                    topicDTOs.add(topicDTO);
+                }
+            }
+        } catch (Exception ignored) {}
+        dto.setTopics(topicDTOs);
 
-        CourseOptions options = course.getCourseOptions();
-        if (options != null) {
-            CourseResponseDTO.CourseOptionDTO optionDTO = new CourseResponseDTO.CourseOptionDTO();
-            optionDTO.setBenefits(options.getBenefits());
-            optionDTO.setPrerequisites(options.getPrerequisites());
-            dto.setCourseOptions(optionDTO);
-        }
-        
-        String baseUrl = "http://localhost:9092/auth/courses/" + course.getCourseId() + "/materials/";
+        try {
+            CourseOptions options = course.getCourseOptions();
+            if (options != null) {
+                CourseResponseDTO.CourseOptionDTO optionDTO = new CourseResponseDTO.CourseOptionDTO();
+                optionDTO.setBenefits(options.getBenefits());
+                optionDTO.setPrerequisites(options.getPrerequisites());
+                dto.setCourseOptions(optionDTO);
+            }
+        } catch (Exception ignored) {}
 
-        List<CourseResponseDTO.StudyMaterialDTO> studyMaterials = course.getStudyMaterials()
-                .stream()
-                .map(material -> {
+        String baseUrl = "/auth/courses/" + course.getCourseId() + "/materials/";
+        List<CourseResponseDTO.StudyMaterialDTO> studyMaterials = new java.util.ArrayList<>();
+        try {
+            if (course.getStudyMaterials() != null) {
+                for (StudyMaterial material : course.getStudyMaterials()) {
                     CourseResponseDTO.StudyMaterialDTO materialDTO = new CourseResponseDTO.StudyMaterialDTO();
                     materialDTO.setName(material.getName());
                     materialDTO.setFileName(material.getFileName());
                     materialDTO.setFileUrl(material.getFileUrl() != null ? material.getFileUrl() : baseUrl + material.getFileName() + "?download=false");
                     materialDTO.setDownloadUrl(material.getFileUrl() != null ? material.getFileUrl() : baseUrl + material.getFileName() + "?download=true");
-                    return materialDTO;
-                }).collect(Collectors.toList());
-
+                    studyMaterials.add(materialDTO);
+                }
+            }
+        } catch (Exception ignored) {}
         dto.setStudyMaterials(studyMaterials);
 
         return dto;

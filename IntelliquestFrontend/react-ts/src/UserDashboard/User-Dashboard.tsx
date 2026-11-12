@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import UserNavbar from "./UserNavbar"
 import { Skeleton } from "@/components/ui/skeleton"
+import { API_BASE_URL } from "@/api/config"
 
 interface Course {
   courseId: number
@@ -62,35 +63,31 @@ const UserDashboard: React.FC = () => {
   }
 
   useEffect(() => {
-    if (!token) {
-      setError("Authentication token is missing")
-      setLoading(false)
-      return
-    }
+    const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {}
 
     axios
-      .get("http://localhost:9092/auth/fetch-all-courses", {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      .get(`${API_BASE_URL}/auth/fetch-all-courses`, config)
       .then((response) => {
-        setCourses(response.data)
-        setFilteredCourses(response.data)
+        const list = Array.isArray(response.data) ? response.data : []
+        setCourses(list)
+        setFilteredCourses(list)
         setLoading(false)
       })
-      .catch(() => {
+      .catch((err) => {
+        console.error("Error fetching courses:", err)
         setError("Failed to load courses")
         setLoading(false)
       })
 
-    axios
-      .get("http://localhost:9092/auth/enrolled-courses", {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => {
-        const ids = (res.data || []).map((c: any) => c.courseId)
-        setEnrolledCourseIds(ids)
-      })
-      .catch(() => {})
+    if (token) {
+      axios
+        .get(`${API_BASE_URL}/auth/enrolled-courses`, config)
+        .then((res) => {
+          const ids = (res.data || []).map((c: any) => c.courseId)
+          setEnrolledCourseIds(ids)
+        })
+        .catch(() => {})
+    }
   }, [token])
 
   const navigate = useNavigate()

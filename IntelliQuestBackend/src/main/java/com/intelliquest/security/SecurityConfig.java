@@ -68,6 +68,7 @@ public class SecurityConfig {
                     "/auth/courses/*",
                     "/auth/courses/*/thumbnail",
                     "/auth/courses/*/materials/*",
+                    "/auth/fetch-all-courses",
                     "/oauth2/**",
                     "/login/**",
                     "/error",

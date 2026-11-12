@@ -29,6 +29,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import UserNavbar from "./UserNavbar"
 import { Skeleton } from "@/components/ui/skeleton"
 import { jwtDecode } from "jwt-decode"
+import { API_BASE_URL } from "@/api/config"
 
 interface CourseOptionDTO {
   benefits: string
@@ -133,7 +134,7 @@ const CourseDetailsPage: React.FC = () => {
 
     const fetchCourseDetails = async () => {
       try {
-        const res = await axios.get(`http://localhost:9092/auth/courses/${id}`, {
+        const res = await axios.get(`${API_BASE_URL}/auth/courses/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         })
         setCourse(res.data)
@@ -146,7 +147,7 @@ const CourseDetailsPage: React.FC = () => {
 
     const fetchEnrolledCourses = async () => {
       try {
-        const res = await axios.get("http://localhost:9092/auth/enrolled-courses", {
+        const res = await axios.get(`${API_BASE_URL}/auth/enrolled-courses`, {
           headers: { Authorization: `Bearer ${token}` },
         })
         const enrolledIds = res.data.map((course: { courseId: number }) => course.courseId)

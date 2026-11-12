@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button"
 import { motion, AnimatePresence } from "framer-motion"
 import UserNavbar from "./UserNavbar"
 import { Skeleton } from "@/components/ui/skeleton"
+import { API_BASE_URL } from "@/api/config"
 
 
 interface Course {
@@ -123,7 +124,7 @@ const EnrolledCourses: React.FC = () => {
     }
 
     axios
-      .get("http://localhost:9092/auth/enrolled-courses", {
+      .get(`${API_BASE_URL}/auth/enrolled-courses`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {

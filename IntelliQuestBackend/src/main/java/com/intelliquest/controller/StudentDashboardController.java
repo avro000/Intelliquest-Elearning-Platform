@@ -27,35 +27,9 @@ public class StudentDashboardController {
     @GetMapping("/fetch-all-courses")
     public ResponseEntity<?> getAllCoursesForStudent(@AuthenticationPrincipal Object principal) {
         try {
-            String email = null;
-
-            if (principal instanceof OAuth2User oAuth2User) {
-                email = oAuth2User.getAttribute("email");
-            } else if (principal instanceof UserDetails userDetails) {
-                email = userDetails.getUsername();
-            } else if (principal instanceof String emailString) {
-                email = emailString;
-            }
-
-            if (email == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized: Email not found.");
-            }
-
-            Optional<User> userOpt = userService.findByEmail(email);
-            if (userOpt.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized: User not found.");
-            }
-
-            User user = userOpt.get();
-
-            if (!user.getRole().equals(UserRole.USER)) {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Forbidden: Only students can access this endpoint.");
-            }
-
             List<CourseResponseDTO> courses = studentDashboardService.getAllCoursesForStudents();
-            if (courses.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NO_CONTENT)
-                        .body("{\"error\": \"No courses available\"}");
+            if (courses == null || courses.isEmpty()) {
+                return ResponseEntity.ok(Collections.emptyList());
             }
 
             return ResponseEntity.ok()
@@ -84,25 +58,20 @@ public class StudentDashboardController {
             }
 
             if (email == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized: Email not found.");
+                return ResponseEntity.ok(Collections.emptyList());
             }
 
             Optional<User> userOpt = userService.findByEmail(email);
             if (userOpt.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized: User not found.");
+                return ResponseEntity.ok(Collections.emptyList());
             }
 
             User user = userOpt.get();
 
-            if (!user.getRole().equals(UserRole.USER)) {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Forbidden: Only students can access this endpoint.");
-            }
-
             List<CourseResponseDTO> enrolledCourses = studentDashboardService.getEnrolledCoursesForStudent(user.getId());
-            if (enrolledCourses.isEmpty()) {
+            if (enrolledCourses == null || enrolledCourses.isEmpty()) {
                 return ResponseEntity.ok(Collections.emptyList()); // Always return a JSON array
             }
-
 
             return ResponseEntity.ok()
                     .contentType(MediaType.APPLICATION_JSON)
@@ -137,10 +106,6 @@ public class StudentDashboardController {
             }
 
             User user = userOpt.get();
-
-            if (!user.getRole().equals(UserRole.USER)) {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Forbidden: Only students can access this endpoint.");
-            }
 
             Optional<CourseResponseDTO> courseOpt = studentDashboardService.getCourseDetailsById(courseId);
             if (courseOpt.isPresent()) {
