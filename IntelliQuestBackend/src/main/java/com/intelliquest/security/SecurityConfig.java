@@ -70,7 +70,10 @@ public class SecurityConfig {
                     "/auth/courses/*/materials/*",
                     "/oauth2/**",
                     "/login/**",
-                    "/error"
+                    "/error",
+                    "/",
+                    "/health",
+                    "/api/health"
                 ).permitAll()
                 // Admin endpoints strictly require ADMIN role
                 .requestMatchers("/auth/admin/**").hasRole("ADMIN")
